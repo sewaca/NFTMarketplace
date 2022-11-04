@@ -2,7 +2,7 @@ import {
   Box,
   Button,
   CircularProgress,
-  Grid,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,11 +13,9 @@ import useApiMutation from "../../hooks/useApiMutation";
 import styles from "./create-nft.module.css";
 import DragNDropUploader from "./DragNDropUploader";
 import { handleServerResponse, IBlock } from "./handleServerResponse";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface CreateNFTProps {}
-
-// FIXME:
-type FIXME = any;
 
 export default function CreateNFT({}: CreateNFTProps) {
   const [uploadedFiles, setUploadedFiles] = useState<Array<File>>([]);
@@ -68,8 +66,10 @@ export default function CreateNFT({}: CreateNFTProps) {
   };
 
   return (
-    <Box className={styles.PageBox}>
-      {data.blocks?.length ? (
+    <Box
+      className={styles.PageBox}  
+    >
+      {data.blocks?.length && !loading ? (
         <>
           <Typography variant="h4">Коллекция успешно выпущена.</Typography>
           <div
@@ -97,6 +97,13 @@ export default function CreateNFT({}: CreateNFTProps) {
           </Typography>
           {uploadedFiles.length ? (
             <Box className={styles.Rectangle}>
+              <IconButton
+                color="primary"
+                onClick={(e) => setUploadedFiles([])}
+                className={styles.Rectangle__removeButton}
+              >
+                <DeleteIcon />
+              </IconButton>
               <img
                 src={uploadedPreview || ""}
                 className={styles.Rectangle__image}
@@ -114,8 +121,8 @@ export default function CreateNFT({}: CreateNFTProps) {
             </Box>
           )}
           <TextField
-            sx={{ my: 2, minWidth: 280 }}
-            label="На сколько частей поделить картинку?"
+            sx={{ my: 3, minWidth: 280 }}
+            label={"На сколько частей поделить картинку?"}
             variant="standard"
             type="text"
             value={partsAmount}
@@ -129,36 +136,23 @@ export default function CreateNFT({}: CreateNFTProps) {
             }
           />
           <Box sx={{ maxWidth: 300, width: "100%" }}>
-            {uploadedFiles.length ? (
-              <Button
-                sx={{ width: "100%", mb: 1 }}
-                variant="contained"
-                color="inherit"
-                onClick={(e) => setUploadedFiles([])}
-              >
-                Загрузить другое изображение
-              </Button>
-            ) : null}
-            {loading ? (
-              <Button
-                variant="contained"
-                color="primary"
-                disabled
-                sx={{ width: "100%" }}
-              >
+            <Button
+              variant="contained"
+              color="primary"
+              className={styles.PageBox__sendButton}
+              onClick={sendDataClickHandler}
+              disabled={loading}
+              size="large"
+            >
+              <span style={{ zIndex: 1 }}>
                 Выпустить
-                <CircularProgress color="info" size={22} sx={{ ml: 1 }} />
-              </Button>
-            ) : (
-              <Button
-                sx={{ width: "100%" }}
-                variant="contained"
-                color="primary"
-                onClick={sendDataClickHandler}
-              >
-                Выпустить
-              </Button>
-            )}
+                {loading ? (
+                  <CircularProgress color="info" size={22} sx={{ ml: 1 }} />
+                ) : (
+                  ""
+                )}
+              </span>
+            </Button>
           </Box>
         </>
       )}

@@ -1,32 +1,22 @@
-.rectangle {
+.Area {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
   border: 2px dashed #333;
-  text-align: center;
   border-radius: 25px;
   padding: 15px;
+
   min-width: calc(min(50vw, 800px));
   max-width: 800px;
   min-height: 30vh;
+
   cursor: pointer;
   transition: 0.3s;
 }
-.rectangle:hover {
-  background-color: #f2f2f2;
+.Area:hover {
+  background-color: #1e1e1e;
 }
 
-.grayText {
-  color: #666;
-}
 
-.noPointerEvents {
-  pointer-events: none;
-}
-
-.uploadManual {
-  color: rgb(4, 109, 228);
-  font-weight: 500;
-  text-decoration: underline;
-}

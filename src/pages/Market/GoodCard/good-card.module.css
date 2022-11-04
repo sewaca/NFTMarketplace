@@ -1,0 +1,17 @@
+.Card {
+  overflow: hidden;
+}
+.Card__Actions {
+  transition: 0.3s;
+  transform: translateY(105%);
+  padding: 0 !important;
+}
+.Card__ActionButton {
+  width: 100%;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  background: var(--button-background-gradient);
+}
+.Card:hover .Card__Actions {
+  transform: translateY(0);
+}

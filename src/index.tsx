@@ -1,23 +1,17 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { DAppProvider, Mainnet } from "@usedapp/core";
+import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
+import "./global.css";
 // Шрифты
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { DAppProvider, Goerli, Mainnet } from "@usedapp/core";
-import { getDefaultProvider } from "ethers";
-import { BrowserRouter } from "react-router-dom";
-import React from "react";
-import { SnackbarProvider } from "notistack";
+import { hydrate } from "react-dom";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-
-// primary: "#f5831f",
 
 const config = {
   readOnlyChainId: Mainnet.chainId,
@@ -27,25 +21,47 @@ const config = {
   },
 };
 
-root.render(
-  // <React.StrictMode>
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ED720A",
+      contrastText: "#FFFFFF",
+      dark: "#D56402",
+    },
+    secondary: {
+      main: "#8809bb",
+    },
+    mode: "dark",
+  },
+});
+
+const container = document.getElementById("root") as HTMLElement;
+const root = ReactDOM.createRoot(container);
+
+const Application = () => (
   <>
-    <CssBaseline />
-    <DAppProvider config={config}>
-      <SnackbarProvider
-        maxSnack={3}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        disableWindowBlurListener={true}
-        autoHideDuration={2000}
-        style={{ maxWidth: "calc(max(400px, 30vw))" }}
-      >
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SnackbarProvider>
-    </DAppProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DAppProvider config={config}>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          disableWindowBlurListener={true}
+          autoHideDuration={2000}
+          style={{ maxWidth: "calc(max(400px, 30vw))" }}
+        >
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </SnackbarProvider>
+      </DAppProvider>
+    </ThemeProvider>
   </>
-  // </React.StrictMode>
 );
 
-reportWebVitals();
+// react snap
+if (document.getElementById("root")?.hasChildNodes()) {
+  hydrate((<Application />) as any, document.getElementById("root"));
+} else {
+  root.render(<Application />);
+}

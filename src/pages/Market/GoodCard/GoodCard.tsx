@@ -8,11 +8,10 @@ import {
   Link,
   CardActions,
   Button,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
+import styles from "./good-card.module.css";
+import LikeButton from "./LikeButton";
 
 interface GoodCardProps {
   good: {
@@ -32,37 +31,35 @@ export default function GoodCard({ good, coinPrice }: GoodCardProps) {
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
+      <Card
+        className={styles.Card}
+        sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+      >
         <CardMedia>
           <Skeleton variant="rectangular" width={"100%"} height={160} />
         </CardMedia>
         <CardContent>
-          <Typography variant="h6">{good.title}</Typography>
+          <Typography variant="h6">
+            {good.title} <LikeButton {...{ setIsLiked, isLiked }} />
+          </Typography>
           <Typography variant="body1">
             Художник : <Link href={good.seller.link}>{good.seller.name}</Link>
           </Typography>
           <Typography variant="body1">
             Стоимость :{" "}
-            <Typography component="span" sx={{ color: "primary.dark" }}>
+            <Typography component="span" color="primary.dark">
               {good.price}
             </Typography>{" "}
-            ETH{" "}
+            ETH
             {coinPrice ? (
-              <span
-                style={{ color: "#a4a4a4", fontWeight: 500, marginLeft: "5px" }}
-              >
-                ~{(good.price * coinPrice).toFixed(3)} $
-              </span>
+              <Typography component="span" color="secondary" sx={{ ml: 1 }}>
+                ~{(good.price * coinPrice).toFixed(2)} $
+              </Typography>
             ) : null}
           </Typography>
         </CardContent>
-        <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Tooltip title="В избранное" placement="top">
-            <IconButton onClick={() => setIsLiked(!isLiked)}>
-              <FavoriteIcon color={isLiked ? "primary" : "inherit"} />
-            </IconButton>
-          </Tooltip>
-          <Button variant="contained" color="primary">
+        <CardActions className={styles.Card__Actions}>
+          <Button variant="contained" className={styles.Card__ActionButton}>
             Купить
           </Button>
         </CardActions>

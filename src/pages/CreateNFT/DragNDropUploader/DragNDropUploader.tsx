@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import React, { useRef, useState } from "react";
 import styles from "./drag-n-drop-uploader.module.css";
@@ -12,17 +13,16 @@ interface DragNDropUploaderProps {
 export default function DragNDropUploader({
   uploadedFiles,
   setUploadedFiles,
-  setUploadedPreview,
   setMaxPartsAmount,
+  setUploadedPreview,
 }: DragNDropUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { enqueueSnackbar } = useSnackbar();
-
   // Параметры загружамых файлов
   const fileTypes = ["image/png", "image/jpg", "image/jpeg"];
   const maxFileSize = 20 * 1024 * 1024; // in B
-  const maxFileAmount = 1;
+  const maxFilesAmount = 1;
 
   const addUploadedFiles = (files: Array<File>) => {
     // Оставляем только файлы удовлетворяющие условиям
@@ -40,11 +40,11 @@ export default function DragNDropUploader({
         );
       return fileTypes.includes(file.type) && file.size <= maxFileSize;
     });
-    // Если удовлетворяющих условиям файлов нет не будем исполнять код дальше
+    // Если удовлетворяющих условиям файлов нет, мы не будем исполнять код дальше
     if (!files) return;
     // Добавляем удовлетворяющие условиям файлы. Если таких нет
     let newUploadedFiles = [...uploadedFiles, ...files].slice(
-      -1 * maxFileAmount
+      -1 * maxFilesAmount
     );
     setUploadedFiles(newUploadedFiles);
     // Получаем Preview загруженной картинки:
@@ -101,26 +101,34 @@ export default function DragNDropUploader({
     <>
       <input
         type="file"
-        accept={fileTypes.join(",")}
         style={{ display: "none" }}
+        accept={fileTypes.join(",")}
         onChange={fileInputChangeHandler}
         ref={inputRef}
       />
-      <div className={styles.rectangle} {...handlers}>
+      <div className={styles.Area} {...handlers}>
         {isDragging ? (
-          <span className={styles.noPointerEvents}>
+          <span style={{ pointerEvents: "none" }}>
             Отпустите файлы, чтобы загрузить их
           </span>
         ) : (
           <>
-            <span style={{ marginBottom: 10 }}>
+            <Typography sx={{ mb: "10px" }}>
               Перетащите картинку, или&nbsp;
-              <span className={styles.uploadManual}>загрузите напрямую</span>
-            </span>
-            <span className={styles.grayText}>
+              <Typography
+                component="span"
+                color="primary"
+                sx={{ fontWeight: 500, textDecoration: "underline" }}
+              >
+                загрузите напрямую
+              </Typography>
+            </Typography>
+            <Typography sx={{ color: "gray" }}>
               Доступные форматы: jpg, jpeg, png
-            </span>
-            <span className={styles.grayText}>Максимальный размер: 1 Мб</span>
+            </Typography>
+            <Typography sx={{ color: "gray" }}>
+              Максимальный размер: 1 Мб
+            </Typography>
           </>
         )}
       </div>

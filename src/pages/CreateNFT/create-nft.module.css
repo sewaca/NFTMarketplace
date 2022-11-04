@@ -21,11 +21,17 @@
 /* Rectangle */
 .Rectangle {
   border-radius: 25px;
-  background-color: #d9d9d9;
+  background: var(--block-background);
   padding: 15px;
   min-width: calc(min(50vw, 800px));
   max-width: 800px;
   min-height: 30vh;
+  position: relative;
+}
+.Rectangle__removeButton{
+  position: absolute!important;
+  right: 10px!important;
+  top: 10px!important;
 }
 .Rectangle__image {
   display: block;
@@ -37,4 +43,24 @@
 .PageBox__TextField {
   margin-top: 12px;
   min-width: 280px;
+}
+
+.PageBox__sendButton {
+  background: var(--button-background-gradient);
+  transition: 0.3s;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.PageBox__sendButton::before {
+  position: absolute;
+  z-index: 0;
+  content: "";
+  top: 0; bottom: 0;
+  left: 0;right: 0;
+  transition: .3s;
+}
+.PageBox__sendButton:hover::before {
+  background-color: rgba(0,0,0,0.4);
 }
