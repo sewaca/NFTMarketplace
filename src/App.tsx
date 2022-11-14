@@ -1,69 +1,76 @@
-import { Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  Container,
+  createTheme,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { useEtherBalance, useEthers } from "@usedapp/core";
 import AppHeader from "./components/AppHeader";
 import Market from "./pages/Market";
 import { Routes, Route, Link } from "react-router-dom";
 import CreateNFT from "./pages/CreateNFT";
 import { ReactNode } from "react";
+import MyNFTs from "./pages/MyNFTs";
+import { useCoingeckoPrice } from "@usedapp/coingecko";
+import { useCookies } from "react-cookie";
+import ErrorPage from "./pages/ErrorPage";
 
-const NotCreated = ({ title }: { title: string }) => {
-  return (
-    <>
-      <h1> {title} </h1>
-      <span>Страничка еще не готова.</span>
-    </>
-  );
-};
-
-const Error404 = () => {
-  return (
-    <>
-      <h1>Ошибка 404</h1>
-      <p>Страница не существует.</p>
-      <Link to={"/"}>На главную</Link>
-    </>
-  );
-};
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ED720A",
-      contrastText: "#fff",
-      dark: "#d56402",
-    },
-    mode: "dark",
-  },
-});
+type IGetDefaultLayoutProps = (
+  el: ReactNode,
+  onlyAuthorized?: boolean
+) => ReactNode;
 
 function App() {
   const { account, activateBrowserWallet, deactivate } = useEthers();
   const etherBalance = useEtherBalance(account);
+  const coinPrice = useCoingeckoPrice("ethereum", "usd");
+  const [{ login }, setLogin] = useCookies(["login"]);
+  let limitedMode = !login;
 
-  const getDefaultLayout = (el: ReactNode) => (
+  const getDefaultLayout: IGetDefaultLayoutProps = (
+    el,
+    onlyAuthorized = false
+  ) => (
     <>
       <AppHeader
-        etherBalance={etherBalance}
-        account={account}
-        activateBrowserWallet={activateBrowserWallet}
-        deactivate={deactivate}
+        {...{
+          etherBalance,
+          account,
+          activateBrowserWallet,
+          deactivate,
+          limitedMode,
+        }}
       />
-      <Container sx={{ pt: 9, pb: 3 }}>{el}</Container>
+      <Container sx={{ pt: 9, pb: 3 }}>
+        {onlyAuthorized && !account ? (
+          <ErrorPage errorCode="requiredAuthorization" />
+        ) : (
+          el
+        )}
+      </Container>
     </>
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <Routes>
-        <Route path="/" element={getDefaultLayout(<Market />)} />
-        <Route path="/create" element={getDefaultLayout(<CreateNFT />)} />
-        <Route
-          path="/my"
-          element={getDefaultLayout(<NotCreated title="Мои коллекции" />)}
-        />
-        <Route path="*" element={getDefaultLayout(<Error404 />)} />
-      </Routes>
-    </ThemeProvider>
+    <Routes>
+      <Route
+        path="/"
+        element={getDefaultLayout(<Market coinPrice={coinPrice} />)}
+      />
+      <Route path="/create" element={getDefaultLayout(<CreateNFT />)} />
+      <Route
+        path="/my"
+        element={getDefaultLayout(
+          <MyNFTs account={account} coinPrice={coinPrice} />,
+          true
+        )}
+      />
+      <Route
+        path="*"
+        element={getDefaultLayout(<ErrorPage errorCode="404" />)}
+      />
+    </Routes>
   );
 }
 

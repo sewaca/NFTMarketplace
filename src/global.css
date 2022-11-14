@@ -1,4 +1,12 @@
-:root{
-  --button-background-gradient: linear-gradient(35deg, #8809bb, #ED720A);
+:root {
+  --page-background: #111111;
   --block-background: #1e1e1e;
+
+  --primary-main: #ff003c;
+  --primary-dark: #ca0f3b;
+  --primary-contrastText: #fff;
+
+  --secondary-main: #fff700;
+  --secondary-dark: #b6b000;
+  --secondary-contrastText: #000;
 }

@@ -68,7 +68,7 @@ params: {
   nftId: string;
 }
 response: {
-  status: "OK" | "NOT_ENOUGH_MONEY" | "ITERNAL_ERROR"
+  status: "OK" | "NOT_ENOUGH_MONEY" | "INTERNAL_ERROR"
 }
 
 ## SEND IMAGE
@@ -91,3 +91,67 @@ response: {
   }>
 }
 
+## GET USER COLLECTIONS
+description: 
+  Получает все коллекции пользователя с купленными nft
+method: GET
+url: /getUserCollections
+params: {
+  userId: number; // id пользователя
+}
+response : Array<{
+  id: string; // id коллекции
+  title: string;
+  author: {
+    link: string;
+    name: string;
+  };
+  minPrice: number; // float
+  lastBuy: string; // Date
+  available: number; // Number of NFTs avaliable to buy
+  bought: Array<NFT>
+}>
+
+## REGISTER USER
+description: 
+  Отправляет данные пользователя при регистрации
+  В ответ ожидается {status: "ok"}, если регистрация успешна, 
+  В противном случае, ожидается {status: "error", errorCode: string}
+method: POST
+url: /register/
+params: {
+  email: string;
+  password: string;
+}
+response: {
+  status: "ok" | "error";
+  errorCode?: "WRONG_EMAIL" | "WRONG_PASSWORD" | "EMAIL_BUSY" | "INTERNAL_ERROR"
+}
+
+## LOGIN ACCOUNT
+description: 
+  Запрос отрабатывает при попытке входа в аккаунт пользователя
+method: POST
+url: /login/
+params: {
+  email: string;  
+  password: string;
+}
+response: {
+  status: "ok" | "error";
+}
+
+## VERIFY WALLET
+description: 
+  Подключает metamask кошелек к существующему аккаунту
+  Также используется при входе в существующий аккаунт для проверки кошелька	
+method: PUT
+url: /verifyWallet/
+params: {
+  email: string;
+  wallet: string;
+}
+response: {
+  status: "ok" | "error";
+  errorCode?: "NON_EXISTENT_USER" | "WRONG_WALLET" | "WALLET_BUSY" | "INTERNAL_ERROR";  
+}

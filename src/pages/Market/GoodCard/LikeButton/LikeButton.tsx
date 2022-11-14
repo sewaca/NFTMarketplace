@@ -1,5 +1,8 @@
-import { IconButton, Tooltip } from "@mui/material";
-import React from "react";
+import { IconButton, Tooltip, Typography } from "@mui/material";
+import React, { ReactNode, useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useCookies } from "react-cookie";
+import { useSnackbar } from "notistack";
 
 interface LikeButtonProps {
   isLiked: boolean;
@@ -7,14 +10,29 @@ interface LikeButtonProps {
 }
 
 export default function LikeButton({ isLiked, setIsLiked }: LikeButtonProps) {
+  const [{ login }] = useCookies(["login"]);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClick = () => {
+    if (!login)
+      return enqueueSnackbar(
+        <Typography variant="body1" sx={{ lineHeight: 1 }}>
+          Это действие доступно только зарегистрированным пользователям
+        </Typography>,
+        { variant: "error" }
+      );
+    setIsLiked(!isLiked);
+  };
+
   return (
     <Tooltip title="В избранное" placement="top">
-      <IconButton onClick={() => setIsLiked(!isLiked)}>
+      <IconButton onClick={() => handleClick()}>
+        {/* <FavoriteIcon htmlColor={isLiked ? theme.palette.secondary.main : "#bfbfbf"}/> */}
         <svg width={24} height={24}>
           <defs>
             <linearGradient id="grad1" gradientTransform="rotate(35)">
-              <stop offset="13%" stop-color="#8809bb" />
-              <stop offset="100%" stop-color="#ED720A" />
+              <stop offset="13%" stopColor="var(--secondary-main)" />
+              <stop offset="100%" stopColor="var(--primary-main)" />
             </linearGradient>
           </defs>
           <path

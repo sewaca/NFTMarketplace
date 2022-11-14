@@ -1,0 +1,43 @@
+.NFTInfoCard {
+  padding: 10px;
+  height: 100%;
+  border: 2px solid #fff;
+  border-radius: 0;
+  background: #121212;
+  transition: 0.3s;
+  position: relative;
+  width: 100%; 
+  min-width: 240px;
+}
+
+.NFTInfoCard:hover {
+  background-color: var(--primary-main);
+  border-color: var(--primary-main);
+}
+
+.NFTInfoCard__Link{
+  position: absolute;
+  z-index: 2;
+  top: 0;right: 0;bottom: 0;left: 0;
+}
+
+.NFTInfoCard__Price {
+  color: var(--primary-main);
+}
+
+.NFTInfoCard:hover .NFTInfoCard__Price {
+  color: var(--secondary-main);
+}
+
+.NFTInfoCard__Button {
+  border-radius: 0;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 20px;
+}
+
+.NFTInfoCard:hover .NFTInfoCard__Button {
+  background: var(--secondary-main);
+  color: var(--secondary-contrastText);
+}

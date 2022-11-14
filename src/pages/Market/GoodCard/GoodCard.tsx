@@ -10,19 +10,12 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+import { INFT } from "../../../types";
 import styles from "./good-card.module.css";
 import LikeButton from "./LikeButton";
 
 interface GoodCardProps {
-  good: {
-    id: string;
-    title: string;
-    price: number;
-    seller: {
-      link: string;
-      name: string;
-    };
-  };
+  good: INFT;
   coinPrice: number;
 }
 
@@ -36,31 +29,76 @@ export default function GoodCard({ good, coinPrice }: GoodCardProps) {
         sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
       >
         <CardMedia>
-          <Skeleton variant="rectangular" width={"100%"} height={160} />
+          {good.img ? (
+            <div style={{ width: "100%", height: 160, display: "flex" }}>
+              <img
+                src={good.img}
+                style={{ height: "100%", margin: "auto" }}
+                alt={good.title}
+              />
+            </div>
+          ) : (
+            <Skeleton variant="rectangular" width={"100%"} height={160} />
+          )}
         </CardMedia>
         <CardContent>
-          <Typography variant="h6">
-            {good.title} <LikeButton {...{ setIsLiked, isLiked }} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h6">{good.title}</Typography>
+            <LikeButton {...{ setIsLiked, isLiked }} />
+          </div>
+          <Typography variant="body1">
+            Художник:{" "}
+            <Link
+              href={"/users/" + good.seller.id}
+              sx={{ color: "primary.main" }}
+            >
+              {good.seller.name}
+            </Link>
           </Typography>
           <Typography variant="body1">
-            Художник : <Link href={good.seller.link}>{good.seller.name}</Link>
-          </Typography>
-          <Typography variant="body1">
-            Стоимость :{" "}
-            <Typography component="span" color="primary.dark">
-              {good.price}
-            </Typography>{" "}
-            ETH
+            Стоимость:{" "}
+            <Typography component="span" sx={{ color: "primary.main" }}>
+              {good.price} ETH
+            </Typography>
             {coinPrice ? (
-              <Typography component="span" color="secondary" sx={{ ml: 1 }}>
+              <Typography component="span" sx={{ color: "grey.400", ml: 1 }}>
                 ~{(good.price * coinPrice).toFixed(2)} $
               </Typography>
             ) : null}
           </Typography>
         </CardContent>
         <CardActions className={styles.Card__Actions}>
-          <Button variant="contained" className={styles.Card__ActionButton}>
-            Купить
+          <Button
+            variant="contained"
+            sx={{
+              background: `linear-gradient(35deg, var(--secondary-main) 13%, var(--primary-main) 75%)`,
+              "&::after": {
+                content: "''",
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                transition: ".3s",
+                background: "rgba(0,0,0,0.4)",
+                opacity: 0,
+                zIndex: 0,
+              },
+              "&:hover::after": {
+                opacity: 1,
+              },
+            }}
+            className={styles.Card__ActionButton}
+          >
+            <Typography variant="body1" sx={{ zIndex: 1 }}>
+              Подробнее
+            </Typography>
           </Button>
         </CardActions>
       </Card>

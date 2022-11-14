@@ -10,7 +10,6 @@
   width: 100%;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  background: var(--button-background-gradient);
 }
 .Card:hover .Card__Actions {
   transform: translateY(0);

@@ -19,18 +19,20 @@ export default function useApiRequest({
   const successText = "Коллекция успешно выпущенна";
 
   useEffect(() => {
+    console.log("new request with key: ", key);
     request
       .then((ans) => {
         setLoading(false);
-        enqueueSnackbar(successText, { variant: "success" });
+        // enqueueSnackbar(successText, { variant: "success" });
         setData(ans);
+        setError("");
       })
       .catch((err) => {
         setLoading(false);
-        enqueueSnackbar(errorText, { variant: "error" });
+        // enqueueSnackbar(errorText, { variant: "error" });
         setError(err);
       });
-  }, [ key ]);
+  }, [key]);
 
   return { loading, error, data };
 }

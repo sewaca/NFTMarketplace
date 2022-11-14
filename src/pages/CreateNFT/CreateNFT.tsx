@@ -7,28 +7,43 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, { useState } from "react";
+import { useState } from "react";
 import API from "../../API/API";
 import useApiMutation from "../../hooks/useApiMutation";
 import styles from "./create-nft.module.css";
 import DragNDropUploader from "./DragNDropUploader";
 import { handleServerResponse, IBlock } from "./handleServerResponse";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEthers } from "@usedapp/core";
+import { useCookies } from "react-cookie";
+import ErrorPage from "../ErrorPage";
 
 interface CreateNFTProps {}
 
 export default function CreateNFT({}: CreateNFTProps) {
+  const [{ login }] = useCookies(["login"]);
   const [uploadedFiles, setUploadedFiles] = useState<Array<File>>([]);
   const [maxPartsAmount, setMaxPartsAmount] = useState(1000);
   const [partsAmount, setPartsAmount] = useState(4);
+  const [title, setTitle] = useState("");
   // uploadedPreview - base64 строка, генерируемая после того, как пользователь загрузил картинку
   const [uploadedPreview, setUploadedPreview] = useState("");
   // Позволяет выводить сообщения пользователю в виде
   const { enqueueSnackbar } = useSnackbar();
-
-  const { loading, data, error, send } = useApiMutation();
+  const { loading, data, send } = useApiMutation();
+  const { account } = useEthers();
 
   const sendDataClickHandler = () => {
+    // Если пользователь не вошел в аккаунт
+    if (!account)
+      return enqueueSnackbar("Пожалуйста, войдите в аккаунт", {
+        variant: "error",
+      });
+
+    if (!title)
+      return enqueueSnackbar("Пожалуйста, введите название коллекции", {
+        variant: "error",
+      });
     // Проверяем правильность введенных пользователем данных
     if (!uploadedFiles[0])
       return enqueueSnackbar("Пожалуйста, загрузите картинку", {
@@ -37,7 +52,7 @@ export default function CreateNFT({}: CreateNFTProps) {
     // Если пользователь выбрал слишком много частей (больше чем пикселей в картинке)
     if (partsAmount > maxPartsAmount)
       return enqueueSnackbar(
-        "Слишком большое количество частей для деления картинки.",
+        "Слишком большое количество частей для деления картинки",
         { variant: "error" }
       );
     if (!partsAmount)
@@ -45,8 +60,8 @@ export default function CreateNFT({}: CreateNFTProps) {
         "Пожалуйста, укажите верное количество частей для деления картинки",
         { variant: "error" }
       );
-    // Если данные введены пользователем верно, то отправляем запрос на backend
 
+    // Если данные введены пользователем верно, то отправляем запрос на backend
     const fr = new FileReader();
     fr.readAsDataURL(uploadedFiles[0]);
     fr.onloadend = () => {
@@ -54,6 +69,8 @@ export default function CreateNFT({}: CreateNFTProps) {
         API.sendImage({
           nblocks: partsAmount,
           src: fr.result?.toString() || "",
+          wallet: account,
+          title: title,
         })
           .then((res) => res.json())
           .then((res) => {
@@ -65,11 +82,11 @@ export default function CreateNFT({}: CreateNFTProps) {
     };
   };
 
-  return (
-    <Box
-      className={styles.PageBox}  
-    >
-      {data.blocks?.length && !loading ? (
+  return !login || !account ? (
+    <ErrorPage errorCode="requiredAuthorization" />
+  ) : (
+    <Box className={styles.PageBox}>
+      {!loading && data.blocks?.length ? (
         <>
           <Typography variant="h4">Коллекция успешно выпущена.</Typography>
           <div
@@ -122,7 +139,21 @@ export default function CreateNFT({}: CreateNFTProps) {
           )}
           <TextField
             sx={{ my: 3, minWidth: 280 }}
-            label={"На сколько частей поделить картинку?"}
+            label={<Typography variant="body2">Название коллекции</Typography>}
+            color="secondary"
+            variant="standard"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField
+            sx={{ mb: 3, minWidth: 280 }}
+            label={
+              <Typography variant="body2">
+                На сколько частей поделить картинку?
+              </Typography>
+            }
+            color="secondary"
             variant="standard"
             type="text"
             value={partsAmount}
@@ -135,25 +166,56 @@ export default function CreateNFT({}: CreateNFTProps) {
               )
             }
           />
-          <Box sx={{ maxWidth: 300, width: "100%" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={styles.PageBox__sendButton}
-              onClick={sendDataClickHandler}
-              disabled={loading}
-              size="large"
-            >
-              <span style={{ zIndex: 1 }}>
-                Выпустить
-                {loading ? (
-                  <CircularProgress color="info" size={22} sx={{ ml: 1 }} />
-                ) : (
-                  ""
-                )}
-              </span>
-            </Button>
-          </Box>
+          <Button
+            variant="contained"
+            onClick={sendDataClickHandler}
+            disabled={loading}
+            size="large"
+            sx={{
+              background: `linear-gradient(35deg, var(--secondary-main) 13%, var(--primary-main) 75%)`,
+              width: "100%",
+              maxWidth: 300,
+              mt: 3,
+              "&::after": !loading
+                ? {
+                    content: "''",
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    transition: ".3s",
+                    background: "rgba(0,0,0,0.4)",
+                    opacity: 0,
+                    zIndex: 0,
+                  }
+                : {
+                    content: "''",
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    background: "rgba(255,255,255,0.4)",
+                    opacity: 1,
+                    zIndex: 0,
+                  },
+              "&:hover::after": {
+                opacity: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" sx={{ zIndex: 1 }}>
+              Выпустить
+            </Typography>
+            {loading ? (
+              <CircularProgress
+                color="info"
+                size={22}
+                sx={{ ml: 1, zIndex: 1 }}
+              />
+            ) : null}
+          </Button>
         </>
       )}
     </Box>

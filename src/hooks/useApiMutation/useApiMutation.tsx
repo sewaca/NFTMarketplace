@@ -15,13 +15,13 @@ export default function useApiMutatuion() {
     request
       .then((ans) => {
         setLoading(false);
-        enqueueSnackbar(successText, { variant: "success" });
         setData(ans);
+        setError("");
       })
       .catch((err) => {
-        enqueueSnackbar(errorText, { variant: "error" });
         console.log(err);
         setLoading(false);
+        setData(undefined);
         setError(err);
       });
   };

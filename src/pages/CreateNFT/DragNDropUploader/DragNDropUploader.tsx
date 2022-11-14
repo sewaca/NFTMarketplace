@@ -108,9 +108,9 @@ export default function DragNDropUploader({
       />
       <div className={styles.Area} {...handlers}>
         {isDragging ? (
-          <span style={{ pointerEvents: "none" }}>
+          <Typography variant="body1" style={{ pointerEvents: "none" }}>
             Отпустите файлы, чтобы загрузить их
-          </span>
+          </Typography>
         ) : (
           <>
             <Typography sx={{ mb: "10px" }}>

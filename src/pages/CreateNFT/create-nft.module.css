@@ -1,66 +1,68 @@
 .PageBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 30px;
 }
 /* Response Grid */
 .PageBox__ResponseGrid {
-  display: grid;
-  max-width: 612px;
-  padding: 6px;
-  grid-gap: 2px;
-  background-color: #d9d9d9;
+	display: grid;
+	grid-gap: 2px;
+	background-color: #d9d9d9;
+	padding: 6px;
+	max-width: 612px;
 }
 .PageBox__ResponseGrid img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  padding: 1px;
+	display: block;
+	padding: 1px;
+	width: 100%;
+	height: 100%;
 }
 /* Rectangle */
 .Rectangle {
-  border-radius: 25px;
-  background: var(--block-background);
-  padding: 15px;
-  min-width: calc(min(50vw, 800px));
-  max-width: 800px;
-  min-height: 30vh;
-  position: relative;
+	position: relative;
+	border-radius: 25px;
+	background: var(--block-background);
+	padding: 15px;
+	border: 2px solid var(--secondary-main);
+	min-width: calc(min(50vw, 800px));
+	max-width: 800px;
+	min-height: 30vh;
 }
-.Rectangle__removeButton{
-  position: absolute!important;
-  right: 10px!important;
-  top: 10px!important;
+.Rectangle__removeButton {
+	position: absolute!important;
+	top: 10px!important;
+	right: 10px!important;
 }
 .Rectangle__image {
-  display: block;
-  margin: 0 auto;
-  max-width: calc(min(100%, 600px));
-  max-height: calc(min(60vh, 400px));
+	display: block;
+	margin: 0 auto;
+	max-width: calc(min(100%, 600px));
+	max-height: calc(min(60vh, 400px));
 }
-/* d */
+/*  */
 .PageBox__TextField {
-  margin-top: 12px;
-  min-width: 280px;
+	margin-top: 12px;
+	min-width: 280px;
 }
-
 .PageBox__sendButton {
-  background: var(--button-background-gradient);
-  transition: 0.3s;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+	position: relative;
+	transition: 0.3s;
+	z-index: 1;
+	background: var(--button-background-gradient);
+	width: 100%;
+	overflow: hidden;
 }
 .PageBox__sendButton::before {
-  position: absolute;
-  z-index: 0;
-  content: "";
-  top: 0; bottom: 0;
-  left: 0;right: 0;
-  transition: .3s;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	transition: .3s;
+	z-index: 0;
+	content: "";
 }
 .PageBox__sendButton:hover::before {
-  background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.4);
 }
