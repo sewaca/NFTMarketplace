@@ -1,18 +1,19 @@
 import {
-  Grid,
-  Card,
-  CardMedia,
-  Skeleton,
-  CardContent,
-  Typography,
-  Link,
-  CardActions,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Link,
+  Skeleton,
+  Typography,
 } from "@mui/material";
-import { useState } from "react";
+
 import { INFT } from "../../../types";
-import styles from "./good-card.module.css";
 import LikeButton from "./LikeButton";
+import styles from "./good-card.module.css";
+import { useState } from "react";
 
 interface GoodCardProps {
   good: INFT;

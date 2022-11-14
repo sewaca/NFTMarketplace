@@ -1,11 +1,11 @@
 import { Button, Typography } from "@mui/material";
-import { useEthers } from "@usedapp/core";
-import { useSnackbar } from "notistack";
 import React, { ReactNode, useState } from "react";
-import { useCookies } from "react-cookie";
+
 import { Link } from "react-router-dom";
 import LoginModal from "../../components/LoginModal";
 import RegistrationModal from "../../components/RegistrationModal";
+import { useCookies } from "react-cookie";
+import { useEthers } from "@usedapp/core";
 
 interface ErrorPageProps {
   errorCode: "requiredAuthorization" | "unavailable" | "404" | string;
@@ -15,7 +15,6 @@ export default function ErrorPage({ errorCode }: ErrorPageProps) {
   const { activateBrowserWallet } = useEthers();
   const [modal, setModal] = useState<ReactNode | null>(null);
   const [{ login }] = useCookies(["login"]);
-  const { enqueueSnackbar } = useSnackbar();
 
   switch (errorCode) {
     case "404":
@@ -52,7 +51,7 @@ export default function ErrorPage({ errorCode }: ErrorPageProps) {
               привязать кошелек
             </Button>
           ) : (
-            <div style={{marginTop: 12}}>
+            <div style={{ marginTop: 12 }}>
               <Button
                 variant="contained"
                 color="secondary"

@@ -1,21 +1,21 @@
-import { ThemeProvider } from "@emotion/react";
-import { createTheme, CssBaseline, StyledEngineProvider } from "@mui/material";
-import { DAppProvider, Goerli, Mainnet } from "@usedapp/core";
-import { getDefaultProvider } from "ethers";
-import { SnackbarProvider } from "notistack";
-import { useCookies } from "react-cookie";
-import { BrowserRouter } from "react-router-dom";
+import { CssBaseline, StyledEngineProvider, createTheme } from "@mui/material";
 import App from "./App";
+import { DAppProvider, Goerli, Mainnet } from "@usedapp/core";
+import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
+import { ThemeProvider } from "@emotion/react";
+import { getDefaultProvider } from "ethers";
 
+// Config for UseDApp 
 const config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
     // [Mainnet.chainId]: getDefaultProvider("mainnet"),
     // [Goerli.chainId]: getDefaultProvider("goerli"),
   },
-  autoConnect: false,
+  autoConnect: true,
 };
-
+// Theming for Material UI
 const theme = createTheme({
   palette: {
     primary: {
@@ -41,6 +41,7 @@ const theme = createTheme({
       ),
       fontSize: 20,
       fontWeight: 600,
+      lineHeight: 1,
     },
     h5: {
       fontFamily: ["Blender Pro", "Space Grotesk", "Roboto", "sans-serif"].join(
@@ -56,8 +57,6 @@ const theme = createTheme({
 });
 
 export const AppProviders = () => {
-  const [{ login }, setLogin, removeLogin] = useCookies(["login"]);
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -70,7 +69,7 @@ export const AppProviders = () => {
               disableWindowBlurListener={true}
               autoHideDuration={2000}
               preventDuplicate
-              style={{ maxWidth: "calc(max(400px, 30vw))" }}
+              style={{ maxWidth: "calc(max(400px, 40vw))" }}
             >
               <BrowserRouter>
                 <App />

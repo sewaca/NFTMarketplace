@@ -1,20 +1,17 @@
-import {
-  Button,
-  Container,
-  createTheme,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
-import { useEtherBalance, useEthers } from "@usedapp/core";
+// Layout (components & pages)
+import { Container } from "@mui/material";
 import AppHeader from "./components/AppHeader";
-import Market from "./pages/Market";
-import { Routes, Route, Link } from "react-router-dom";
-import CreateNFT from "./pages/CreateNFT";
-import { ReactNode } from "react";
-import MyNFTs from "./pages/MyNFTs";
-import { useCoingeckoPrice } from "@usedapp/coingecko";
-import { useCookies } from "react-cookie";
 import ErrorPage from "./pages/ErrorPage";
+import Market from "./pages/Market";
+import MyNFTs from "./pages/MyNFTs";
+import CreateNFT from "./pages/CreateNFT";
+// other :
+import { Route, Routes } from "react-router-dom";
+import { ReactNode } from "react";
+// Hooks
+import { useCookies } from "react-cookie";
+import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
+import { useCoingeckoPrice } from "@usedapp/coingecko";
 
 type IGetDefaultLayoutProps = (
   el: ReactNode,
@@ -22,10 +19,8 @@ type IGetDefaultLayoutProps = (
 ) => ReactNode;
 
 function App() {
-  const { account, activateBrowserWallet, deactivate } = useEthers();
-  const etherBalance = useEtherBalance(account);
-  const coinPrice = useCoingeckoPrice("ethereum", "usd");
-  const [{ login }, setLogin] = useCookies(["login"]);
+  const { account } = useEthers();
+  const [{ login }] = useCookies(["login"]);
   let limitedMode = !login;
 
   const getDefaultLayout: IGetDefaultLayoutProps = (
@@ -33,43 +28,21 @@ function App() {
     onlyAuthorized = false
   ) => (
     <>
-      <AppHeader
-        {...{
-          etherBalance,
-          account,
-          activateBrowserWallet,
-          deactivate,
-          limitedMode,
-        }}
-      />
+      <AppHeader {...{ limitedMode }} />
       <Container sx={{ pt: 9, pb: 3 }}>
-        {onlyAuthorized && !account ? (
+        {onlyAuthorized && (!account || !login) ? (
           <ErrorPage errorCode="requiredAuthorization" />
-        ) : (
-          el
-        )}
+        ) : el}
       </Container>
     </>
   );
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={getDefaultLayout(<Market coinPrice={coinPrice} />)}
-      />
-      <Route path="/create" element={getDefaultLayout(<CreateNFT />)} />
-      <Route
-        path="/my"
-        element={getDefaultLayout(
-          <MyNFTs account={account} coinPrice={coinPrice} />,
-          true
-        )}
-      />
-      <Route
-        path="*"
-        element={getDefaultLayout(<ErrorPage errorCode="404" />)}
-      />
+      <Route path="/" element={getDefaultLayout(<Market />)} />
+      <Route path="/create/" element={getDefaultLayout(<CreateNFT />, true)} />
+      <Route path="/my/" element={getDefaultLayout(<MyNFTs />, true)} />
+      <Route path="*" element={getDefaultLayout(<ErrorPage errorCode="404" />)} />
     </Routes>
   );
 }

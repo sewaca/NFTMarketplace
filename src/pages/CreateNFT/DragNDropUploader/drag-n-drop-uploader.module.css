@@ -4,7 +4,7 @@
   justify-content: center;
   flex-direction: column;
 
-  border: 2px dashed var(--secondary-dark);
+  border: 2px dashed var(--primary-dark);
   border-radius: 25px;
   padding: 15px;
 

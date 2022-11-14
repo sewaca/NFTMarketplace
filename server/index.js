@@ -43,26 +43,27 @@ const randomAuthor = () => ({ id: randomId(), name: randomName() });
 function randomNFT() {
   if (!images) return;
   return {
+    collection: {
+      author: randomAuthor(),
+      id: randomId(),
+      title: randomTitle(),
+    },
     id: randomId(),
     img: randomImage(),
-    title: randomTitle(),
     price: randomPrice(),
-    collection: {
-      title: randomTitle(),
-      id: randomId(),
-      author: randomAuthor(),
-    },
     seller: randomAuthor(),
+    title: randomTitle(),
   };
 }
 
 const requestListener = function (req, res) {
+  console.log("request on ", req.url);
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 
   // ~ /market/
   if (req.url.indexOf("market") !== -1) {
-    var [url, params] = req.url.split("?");
+    var [url] = req.url.split("?");
     var response = undefined;
     if (url.replaceAll("market", "").replaceAll("/", "").length)
       response = randomNFT();
@@ -73,8 +74,8 @@ const requestListener = function (req, res) {
     return;
   }
 
-  // ~ /createNFT/
-  if (req.url.indexOf("createNFT") !== -1) {
+  // ~ /makeNft/
+  if (req.url.indexOf("makeNft") !== -1) {
     res.writeHead(200);
     res.end(
       JSON.stringify({
@@ -94,20 +95,17 @@ const requestListener = function (req, res) {
 
   // ~ /getUserCollections/
   if (req.url.indexOf("getUserCollections") !== -1) {
-    var ansLength = Math.floor(Math.random() * 10 + 1);
     res.writeHead(200);
     res.end(
       JSON.stringify(
         [...Array(Math.floor(Math.random() * 10 + 1))].map(() => ({
-          id: randomId(),
-          title: randomTitle(),
           author: randomAuthor(),
-          minPrice: randomPrice(),
-          lastBuy: randomDate(),
           available: Math.floor(Math.random() * 1000),
-          bought: [...Array(Math.floor(Math.random() * 10 + 1))].map(() =>
-            randomNFT()
-          ),
+          bought: [...Array(Math.floor(Math.random() * 10 + 1))].map(randomNFT),
+          id: randomId(),
+          lastBuy: randomDate(),
+          minPrice: randomPrice(),
+          title: randomTitle(),
         }))
       )
     );
@@ -135,6 +133,7 @@ const requestListener = function (req, res) {
   }
 
   // ! 404 response
+  console.log("^ server fell down here...");  
   res.writeHead(404);
   res.end(JSON.stringify({ error: "Resource not found" }));
 };
@@ -142,5 +141,5 @@ const requestListener = function (req, res) {
 fs.readFile(__dirname + "/images.json").then((res) => {
   images = JSON.parse(res);
   const server = http.createServer(requestListener);
-  server.listen(8080);
+  server.listen(821);
 });

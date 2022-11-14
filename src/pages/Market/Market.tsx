@@ -1,19 +1,20 @@
+// Components & Pages
 import { Grid } from "@mui/material";
-import { useState } from "react";
-import API from "../../API/API";
 import Loader from "../../components/Loader";
-import useApiRequest from "../../hooks/useApiRequest";
-import { INFT } from "../../types";
-import ErrorPage from "../ErrorPage";
 import GoodCard from "./GoodCard";
+import ErrorPage from "../ErrorPage";
+// Hooks: 
+import useApiRequest from "../../hooks/useApiRequest";
+import { useCoingeckoPrice } from "@usedapp/coingecko";
+import { useState } from "react";
+// Other :  
+import API from "../../API/API";
+import { INFT } from "../../types";
 
 const perPage = 12;
-
-interface MarketProps {
-  coinPrice: string | undefined;
-}
-export default function Market({ coinPrice }: MarketProps) {
+export default function Market() {
   const [page, setPage] = useState(1);
+  const coinPrice = useCoingeckoPrice("ethereum", "usd");
 
   const { loading, data, error } = useApiRequest({
     request: API.getMarket({ page, limit: perPage }).then((res) => res.json()),

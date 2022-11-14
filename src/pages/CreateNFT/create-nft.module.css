@@ -8,9 +8,10 @@
 .PageBox__ResponseGrid {
 	display: grid;
 	grid-gap: 2px;
-	background-color: #d9d9d9;
-	padding: 6px;
-	max-width: 612px;
+	border-radius: 25px;
+	background-color: var(--block-background);
+	padding: 15px;
+	max-width: 800px;
 }
 .PageBox__ResponseGrid img {
 	display: block;
@@ -21,18 +22,18 @@
 /* Rectangle */
 .Rectangle {
 	position: relative;
+	border: 2px solid var(--primary-dark);
 	border-radius: 25px;
 	background: var(--block-background);
 	padding: 15px;
-	border: 2px solid var(--secondary-main);
 	min-width: calc(min(50vw, 800px));
 	max-width: 800px;
 	min-height: 30vh;
 }
 .Rectangle__removeButton {
-	position: absolute!important;
-	top: 10px!important;
-	right: 10px!important;
+	position: absolute !important;
+	top: 10px !important;
+	right: 10px !important;
 }
 .Rectangle__image {
 	display: block;
@@ -59,10 +60,10 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	transition: .3s;
+	transition: 0.3s;
 	z-index: 0;
 	content: "";
 }
 .PageBox__sendButton:hover::before {
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0, 0, 0, 0.4);
 }

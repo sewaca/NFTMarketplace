@@ -1,29 +1,33 @@
-import React from "react";
-import API from "../../API/API";
-import Loader from "../../components/Loader";
-import useApiRequest from "../../hooks/useApiRequest";
-import { ICollection } from "../../types";
-import ErrorPage from "../ErrorPage";
+// Pages & Components :
 import Collection from "./Collection";
+import ErrorPage from "../ErrorPage";
+import Loader from "../../components/Loader";
+// Hooks
+import { useCoingeckoPrice } from "@usedapp/coingecko";
+import { useEthers } from "@usedapp/core";
+import useApiRequest from "../../hooks/useApiRequest";
+// Other
+import API from "../../API/API";
+import { ICollection } from "../../types";
+// SLICK-CAROUSEL CSS FILES:
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./slick_customization.css";
 
-interface MyNFTsProps {
-  coinPrice: string | undefined;
-  account: string | undefined;
-}
-
-export default function MyNFTs({ coinPrice, account }: MyNFTsProps) {
-  account = account || "";
+export default function MyNFTs() {
+  const coinPrice = useCoingeckoPrice("ethereum", "usd");
+  const { account } = useEthers();
   const { loading, error, data } = useApiRequest({
-    request: API.getMyCollections({ account: account }).then((res) =>
+    request: API.getMyCollections({ account: account || "" }).then((res) =>
       res.json()
     ),
     key: "getCollections_" + account,
   });
+
   return loading ? (
     <Loader />
   ) : error ? (
-    <ErrorPage errorCode="requiredAuthorization"/>
+    <ErrorPage errorCode="unavailable" />
   ) : (
     data.map((collection: ICollection) => (
       <Collection

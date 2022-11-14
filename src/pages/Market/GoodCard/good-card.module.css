@@ -11,6 +11,8 @@
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
-.Card:hover .Card__Actions {
+.Card:hover .Card__Actions,
+.Card__Actions:focus,
+.Card__Actions:focus-within {
   transform: translateY(0);
 }

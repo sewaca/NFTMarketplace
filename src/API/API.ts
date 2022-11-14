@@ -1,6 +1,6 @@
 class API {
-  // url = "http://localhost:821";
-  url = "http://localhost:8080";
+  url = "http://localhost:821";
+  // url = "http://localhost:8080";
 
   // GET /market?page=_&limit=_
   getMarket = async ({ page = 1, limit = 30 }: IGetMarketProps) => {
@@ -48,10 +48,13 @@ class API {
 
   // POST /login/
   loginUser = async ({ email, password }: ILoginUser) => {
-    return fetch(this.url + `/register/`, {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
+    return new Promise((resolve, reject) => {
+      resolve({ json: () => ({ status: "ok" }) });
     });
+    // return fetch(this.url + `/register/`, {
+    //   method: "POST",
+    //   body: JSON.stringify({ email, password }),
+    // });
   };
 
   // PUT /connectWallet/

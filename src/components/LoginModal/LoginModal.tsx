@@ -4,11 +4,8 @@ import {
   Box,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
 } from "@mui/material";
-import { errors } from "ethers";
 import { useSnackbar } from "notistack";
 import React, { ChangeEvent, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -35,7 +32,7 @@ interface LoginModalProps {
   closeHandler: Function;
 }
 export default function LoginModal({
-  closeHandler = () => {},
+  closeHandler = () => { },
 }: LoginModalProps) {
   const [opened, setOpened] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
@@ -85,8 +82,8 @@ export default function LoginModal({
 
     send(
       API.loginUser({ email: formdata.email, password: formdata.password })
-        .then((res) => res.json())
-        .then((ans) => {
+        .then((res: any) => res.json())
+        .then((ans: any) => {
           if (ans.status === "error")
             enqueueSnackbar(
               <Typography variant="body1">
@@ -96,7 +93,7 @@ export default function LoginModal({
             );
           else {
             enqueueSnackbar(
-              <Typography variant="body1">Успешна авторизация</Typography>,
+              <Typography variant="body1">Успешная авторизация</Typography>,
               { variant: "success" }
             );
             setLogin("login", formdata.email);
@@ -158,7 +155,7 @@ export default function LoginModal({
               sx={{ width: "100%" }}
               onClick={() => handleLogin()}
             >
-              Войти 
+              Войти
             </Button>
           </Box>
         </Box>
