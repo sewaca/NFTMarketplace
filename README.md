@@ -9,6 +9,5 @@
 
 ### WHAT'S NEW?
 
-+ Lazy loading pages
 + package.json cleaned.
 + removed Paper custom component (./src/components/Paper)
