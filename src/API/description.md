@@ -33,7 +33,7 @@ response: Array<{
 description: 
   Получает информацию о конкретной NFT картинке по id
 method: GET
-url: /market/:id
+url: /market/
 params: {
   id: number;
 }
@@ -97,7 +97,7 @@ description:
 method: GET
 url: /getUserCollections
 params: {
-  userId: number; // id пользователя
+  email: string;
 }
 response : Array<{
   id: string; // id коллекции
@@ -156,7 +156,23 @@ response: {
   errorCode?: "NON_EXISTENT_USER" | "WRONG_WALLET" | "WALLET_BUSY" | "INTERNAL_ERROR";  
 }
 
-
 ## GET USER
 description: 
-  Получает необходимые 
+  Получает выбранные поля информации о пользователе. 
+  Поля передаются массивом строк, где одна строка соответствует одному полю данных о пользователе.
+  Если поля не выбраны - вернется пустой объект({})
+  Если указано несуществующее поле - оно игнорируется
+  Поле "wallet" ожидает в ответ массив строк, где каждая строка - адрес привязанного к аккаунту кошелька. Если привязан только один кошелек, в ответ ожидается массив из одной строки (["example"])
+method: GET
+url: /user/
+params: {
+  email: string;
+  fields: Array<"email" | "wallet" | "name" | "role" | "avatar">;
+}
+response: {
+  email?: string;
+  wallet?: Array< string >;
+  name?: string;
+  role?: string;
+  avatar?: string; // base64 string
+}

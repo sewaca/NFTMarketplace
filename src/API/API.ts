@@ -3,17 +3,23 @@ class API {
   // url = "http://localhost:8080";
 
   // GET /market?page=_&limit=_
-  getMarket = async ({ page = 1, limit = 30 }: IGetMarketProps) => {
-    return fetch(this.url + `/market?page=${page}&limit=${limit}`);
+  getMarket = async ({ page = 1, limit = 30 }: IGetMarket) => {
+    return fetch(
+      this.url +
+        `/market?` +
+        new URLSearchParams({ page: page.toString(), limit: limit.toString() })
+    );
   };
 
-  // GET /market/:id
-  getNft = async ({ id }: IGetNftProps) => {
-    return fetch(this.url + `/market/${id}`);
+  // GET /market/
+  getNft = async ({ id }: IGetNft) => {
+    return fetch(
+      this.url + `/market?` + new URLSearchParams({ id: id.toString() })
+    );
   };
 
   // POST /buy/
-  buyNft = async ({ userId, nftId }: IBuyNftProps) => {
+  buyNft = async ({ userId, nftId }: IBuyNft) => {
     return fetch(this.url + `/buy`, {
       method: "POST",
       body: JSON.stringify({ userId, nftId }),
@@ -21,21 +27,18 @@ class API {
   };
 
   // POST /makeNft/
-  sendImage = async ({
-    nblocks,
-    src,
-    wallet,
-    title,
-  }: ISendImageRequestProps) => {
+  sendImage = async ({ nblocks, src, wallet, title }: ISendImageRequest) => {
     return fetch(this.url + "/makeNft/", {
       method: "POST",
       body: JSON.stringify({ nblocks, src, wallet, title }),
     });
   };
 
-  // GET /getUserCollection/
-  getMyCollections = async ({ account }: IGetMyCollections) => {
-    return fetch(this.url + `/getUserCollections?account=${account}`, {});
+  // GET /getUserCollections  /
+  getMyCollections = async ({ login }: IGetMyCollections) => {
+    return fetch(
+      this.url + `/getUserCollections?` + new URLSearchParams({ login })
+    );
   };
 
   // POST /register/
@@ -48,7 +51,7 @@ class API {
 
   // POST /login/
   loginUser = async ({ email, password }: ILoginUser) => {
-    // TODO: Uncomment logic for login. Now it's commented 
+    // TODO: Uncomment logic for login. Now it's commented
     return new Promise((resolve, reject) => {
       resolve({ json: () => ({ status: "ok" }) });
     });
@@ -67,32 +70,37 @@ class API {
   };
 
   // GET /user/
-  getUserInfo = async ()=>{
-    return 
-  }
+  getUserInfo = async ({ login, fields }: IGetUser) => {
+    return fetch(
+      this.url +
+        `/user?` +
+        new URLSearchParams({ login, fields: JSON.stringify(fields) })
+    );
+  };
 }
 
 export default new API();
-  
-interface IGetNftProps {
+
+// Props interfaces for requests
+interface IGetNft {
   id: number;
 }
-interface IGetMarketProps {
+interface IGetMarket {
   page?: number;
   limit?: number;
 }
-interface ISendImageRequestProps {
+interface ISendImageRequest {
   nblocks: number;
   src: string;
   title: string;
   wallet: string;
 }
-interface IBuyNftProps {
+interface IBuyNft {
   userId: string;
   nftId: string;
 }
 interface IGetMyCollections {
-  account: string; // account id
+  login: string; // account id
 }
 interface IPostNewUser {
   email: string;
@@ -105,4 +113,8 @@ interface ILoginUser {
 interface IConnectWallet {
   email: string;
   wallet: string;
+}
+interface IGetUser {
+  login: string;
+  fields: Array<"email" | "wallet" | "name" | "role" | "avatar">;
 }

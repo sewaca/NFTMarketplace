@@ -1,31 +1,61 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import API from "../../API/API";
+import Loader from "../../components/Loader";
+import useApiRequest from "../../hooks/useApiRequest";
+import ErrorPage from "../ErrorPage";
 import "./cabinet.module.css";
 import ChangeNicknameTab from "./ChangeNicknameTab";
 
 interface CabinetProps {}
 
-export default function Cabinet({}: CabinetProps) {
+export default function Settings({}: CabinetProps) {
   const [active, setActive] = useState(0);
+  const [{ login }] = useCookies(["login"]);
+  // TODO: Разделить запрос и раскидать по табам
+  const {
+    data: userData,
+    loading,
+    error,
+  } = useApiRequest({
+    request: () =>
+      API.getUserInfo({
+        login: login || "",
+        fields: ["avatar", "email", "name", "wallet"],
+      }).then((res) => res.json()),
+    key: "gettingUserInfo_on_settingsPage",
+  });
 
   const tabs = [
-    { title: "Сменить никнейм", content: <ChangeNicknameTab /> },
+    {
+      title: "Сменить никнейм",
+      content: <ChangeNicknameTab name={userData.name || ""} />,
+    },
     { title: "Сменить почту", content: <>123</> },
     { title: "Сменить пароль", content: <>123</> },
     { title: "Привязать кошелек", content: <>123</> },
     { title: "Отвязать кошелек", content: <>123</> },
   ];
 
-  return (
+  return error ? (
+    <ErrorPage errorCode="unavaliable" />
+  ) : (
     <Box sx={{ py: 4, bgcolor: "var(--block-background)" }}>
       <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
         Настройки
       </Typography>
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: ["column", "column", "row"] }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: ["column", "column", "row"],
+        }}
+      >
         <Tabs
           orientation="vertical"
           value={active}
-          sx={{ maxWidth: ["100%", 300] }}
+          sx={{ maxWidth: ["100%", 300], flexShrink: 0 }}
           onChange={(e, i) => setActive(i)}
           TabIndicatorProps={{ sx: { width: "3px" } }}
           variant="scrollable"
@@ -49,11 +79,15 @@ export default function Cabinet({}: CabinetProps) {
             />
           ))}
         </Tabs>
-        {tabs.map((tab, i) => (
-          <div key={"tab__" + i} role="tabpanel" hidden={active !== i}>
-            <Box sx={{ py: 1, px: 2 }}>{tab.content}</Box>
-          </div>
-        ))}
+        {loading ? (
+            <CircularProgress sx={{mt: 6, mx: "auto"}} />
+        ) : (
+          tabs.map((tab, i) => (
+            <div key={"tab__" + i} role="tabpanel" hidden={active !== i}>
+              <Box sx={{ py: 1, px: 4 }}>{tab.content}</Box>
+            </div>
+          ))
+        )}
       </Box>
     </Box>
   );

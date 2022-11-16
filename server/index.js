@@ -1,5 +1,6 @@
 const http = require("http");
 const fs = require("fs").promises;
+var URL = require("url");
 
 var images = undefined;
 const titles = [
@@ -57,10 +58,26 @@ function randomNFT() {
 }
 
 const requestListener = function (req, res) {
-  console.log("request on ", req.url);
+  console.log("request on", URL.parse(req.url, true).pathname);
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 
+  if (req.url.indexOf("/user?") !== -1) {
+    let fields = JSON.parse(URL.parse(req.url, true).query.fields);
+    var ans = {};
+    fields.forEach((item) => {
+      if (item === "avatar") ans["avatar"] = randomImage();
+      if (item === "email") ans["email"] = "randomed@pochta.bank";
+      if (item === "name") ans["name"] = randomName();
+      if (item === "wallet")
+        ans["wallet"] = ["0хКОШЕЛЕК_1", "0хКОШЕЛЕК_2", "0хКОШЕЛЕК_3"];
+      if (item === "role") ans["role"] = "artist";
+    });
+
+    res.writeHead(200);
+    res.end(JSON.stringify(ans));
+    return;
+  }
   // ~ /market/
   if (req.url.indexOf("market") !== -1) {
     var [url] = req.url.split("?");
@@ -133,7 +150,7 @@ const requestListener = function (req, res) {
   }
 
   // ! 404 response
-  console.log("^ server fell down here...");  
+  console.log("^ server fell down here...");
   res.writeHead(404);
   res.end(JSON.stringify({ error: "Resource not found" }));
 };

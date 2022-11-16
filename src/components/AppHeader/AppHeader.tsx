@@ -1,5 +1,4 @@
 // Layout :
-
 import {
   AppBar,
   Box,
@@ -12,14 +11,16 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useState } from "react";
-
 import LoginModal from "../LoginModal";
 import RegistrationModal from "../RegistrationModal";
-import { formatEther } from "ethers/lib/utils";
-import styles from "./AppHeader.module.css";
+// Hooks :
 import { useCookies } from "react-cookie";
 import { useEtherBalance } from "@usedapp/core/dist/esm/src/hooks/useEtherBalance";
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
+// Other :
+import { formatEther } from "ethers/lib/utils";
+// CSS:
+import styles from "./AppHeader.module.css";
 
 // Hooks&functions:
 
@@ -37,14 +38,14 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
   const links = limitedMode
     ? [{ to: "/", title: "Торговая площадка", id: "marketplace" }]
     : [
-      { to: "/", title: "Торговая площадка", id: "marketplace" },
-      {
-        to: "/create",
-        title: "Создать коллекцию",
-        id: "createOwnCollection",
-      },
-      { to: "/my", title: "Мои коллекции", id: "myCollection" },
-    ];
+        { to: "/", title: "Торговая площадка", id: "marketplace" },
+        {
+          to: "/create",
+          title: "Создать коллекцию",
+          id: "createOwnCollection",
+        },
+        { to: "/my", title: "Мои коллекции", id: "myCollection" },
+      ];
 
   return (
     <AppBar color="default">
@@ -128,12 +129,15 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
                   </Typography>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/cabinet" style={{ textDecoration: "unset" }}>
-                    <Typography color="white">Личный кабинет</Typography>
+                  <Link to="/settings/" style={{ textDecoration: "unset" }}>
+                    <Typography color="white">Настройки</Typography>
                   </Link>
                 </MenuItem>
                 <MenuItem
-                  onClick={(e) => { deactivate(); setIsMenuOpened(null); }}
+                  onClick={(e) => {
+                    deactivate();
+                    setIsMenuOpened(null);
+                  }}
                 >
                   <Typography>Выйти из кошелька</Typography>
                 </MenuItem>

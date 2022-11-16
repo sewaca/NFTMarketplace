@@ -9,5 +9,9 @@
 
 ### WHAT'S NEW?
 
-+ Fixed bug on "/my/" when Image shrinked falsy 
-+ Commented login logic in API.ts for the purpose of Backend-devs
++ Renamed /cabinet/ to /settings/
++ Created GET USER request
++ Reworked GET NFT request
++ Reworked GET USER COLLECTIONS request 
++ Fixed bug with wrong params in all GET requests (./src/API/API.ts)
++ Fixed bugs on Node.js test server 
