@@ -155,3 +155,8 @@ response: {
   status: "ok" | "error";
   errorCode?: "NON_EXISTENT_USER" | "WRONG_WALLET" | "WALLET_BUSY" | "INTERNAL_ERROR";  
 }
+
+
+## GET USER
+description: 
+  Получает необходимые 

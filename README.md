@@ -9,5 +9,5 @@
 
 ### WHAT'S NEW?
 
-+ package.json cleaned.
-+ removed Paper custom component (./src/components/Paper)
++ Fixed bug on "/my/" when Image shrinked falsy 
++ Commented login logic in API.ts for the purpose of Backend-devs

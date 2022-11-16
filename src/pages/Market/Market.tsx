@@ -17,7 +17,7 @@ export default function Market() {
   const coinPrice = useCoingeckoPrice("ethereum", "usd");
 
   const { loading, data, error } = useApiRequest({
-    request: API.getMarket({ page, limit: perPage }).then((res) => res.json()),
+    request: ()=>API.getMarket({ page, limit: perPage }).then((res) => res.json()),
     key: "getMarket_page=" + page + "&limit=" + perPage,
   });
 

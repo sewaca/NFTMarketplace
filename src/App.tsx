@@ -12,6 +12,7 @@ import { ReactNode } from "react";
 import { useCookies } from "react-cookie";
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
 import { useCoingeckoPrice } from "@usedapp/coingecko";
+import Cabinet from "./pages/Settings";
 
 type IGetDefaultLayoutProps = (
   el: ReactNode,
@@ -42,6 +43,7 @@ function App() {
       <Route path="/" element={getDefaultLayout(<Market />)} />
       <Route path="/create/" element={getDefaultLayout(<CreateNFT />, true)} />
       <Route path="/my/" element={getDefaultLayout(<MyNFTs />, true)} />
+      <Route path="/cabinet/" element={getDefaultLayout(<Cabinet />, true)} />
       <Route path="*" element={getDefaultLayout(<ErrorPage errorCode="404" />)} />
     </Routes>
   );

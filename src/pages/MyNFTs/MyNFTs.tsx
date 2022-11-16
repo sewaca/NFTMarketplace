@@ -18,7 +18,7 @@ export default function MyNFTs() {
   const coinPrice = useCoingeckoPrice("ethereum", "usd");
   const { account } = useEthers();
   const { loading, error, data } = useApiRequest({
-    request: API.getMyCollections({ account: account || "" }).then((res) =>
+    request: ()=>API.getMyCollections({ account: account || "" }).then((res) =>
       res.json()
     ),
     key: "getCollections_" + account,

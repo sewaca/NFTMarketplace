@@ -15,9 +15,9 @@ import useApiMutation from "../../hooks/useApiMutation";
 import { useEthers } from "@usedapp/core";
 import { useSnackbar } from "notistack";
 import { Suspense, useState } from "react";
-// Other: 
+// Other:
 import API from "../../API/API";
-// CSS :  
+// CSS :
 import styles from "./create-nft.module.css";
 import ErrorPage from "../ErrorPage";
 
@@ -33,6 +33,7 @@ export default function CreateNFT() {
   const { loading, data, send } = useApiMutation();
   const { account } = useEthers();
 
+  // Проверка и отправка данных
   const sendDataClickHandler = () => {
     // Если пользователь не вошел в аккаунт
     if (!account)
@@ -83,100 +84,101 @@ export default function CreateNFT() {
   };
 
   return (
-    <Suspense fallback={<ErrorPage errorCode="unavailable" />}>
-      <Box className={styles.PageBox}>
-        {!loading && data.blocks?.length ? (
-          <>
-            <Typography variant="h4" sx={{mb: 2}}>Коллекция успешно выпущена.</Typography>
-            <div
-              className={styles.PageBox__ResponseGrid}
-              style={{
-                gridTemplateColumns: `repeat(${data.imageInfo?.cols || 1}, 1fr)`,
-              }}
-            >
-              {data.blocks.map((row: Array<IBlock>) =>
-                row.map((cell) => (
-                  <img
-                    key={cell.id}
-                    src={cell.base64}
-                    width={cell.width}
-                    alt=""
-                  />
-                ))
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <Typography variant="h4" sx={{ mb: 3 }}>
-              Выпустить свою коллекцию
-            </Typography>
-            {uploadedFiles.length ? (
-              <Box className={styles.Rectangle}>
-                <IconButton
-                  color="primary"
-                  onClick={(e) => setUploadedFiles([])}
-                  className={styles.Rectangle__removeButton}
-                >
-                  <DeleteIcon />
-                </IconButton>
+    <Box className={styles.PageBox}>
+      {!loading && data.blocks?.length ? (
+        <>
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            Коллекция успешно выпущена.
+          </Typography>
+          <div
+            className={styles.PageBox__ResponseGrid}
+            style={{
+              gridTemplateColumns: `repeat(${data.imageInfo?.cols || 1}, 1fr)`,
+            }}
+          >
+            {data.blocks.map((row: Array<IBlock>) =>
+              row.map((cell) => (
                 <img
-                  src={uploadedPreview || ""}
-                  className={styles.Rectangle__image}
+                  key={cell.id}
+                  src={cell.base64}
+                  width={cell.width}
                   alt=""
                 />
-              </Box>
-            ) : (
-              <Box>
-                <DragNDropUploader
-                  uploadedFiles={uploadedFiles}
-                  setUploadedFiles={setUploadedFiles}
-                  setUploadedPreview={setUploadedPreview}
-                  setMaxPartsAmount={setMaxPartsAmount}
-                />
-              </Box>
+              ))
             )}
-            <TextField
-              sx={{ my: 3, minWidth: 280 }}
-              label={<Typography variant="body2">Название коллекции</Typography>}
-              color="secondary"
-              variant="standard"
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <TextField
-              sx={{ mb: 3, minWidth: 280 }}
-              label={
-                <Typography variant="body2">
-                  На сколько частей поделить картинку?
-                </Typography>
-              }
-              color="secondary"
-              variant="standard"
-              type="text"
-              value={partsAmount}
-              onChange={(e) =>
-                setPartsAmount(
-                  Math.min(
-                    +(e.target.value.match(/\d/g)?.join("") || ""),
-                    maxPartsAmount
-                  )
+          </div>
+        </>
+      ) : (
+        <>
+          <Typography variant="h4" sx={{ mb: 3 }}>
+            Выпустить свою коллекцию
+          </Typography>
+          {uploadedFiles.length ? (
+            <Box className={styles.Rectangle}>
+              <IconButton
+                color="primary"
+                onClick={(e) => setUploadedFiles([])}
+                className={styles.Rectangle__removeButton}
+              >
+                <DeleteIcon />
+              </IconButton>
+              <img
+                src={uploadedPreview || ""}
+                className={styles.Rectangle__image}
+                alt=""
+              />
+            </Box>
+          ) : (
+            <Box>
+              <DragNDropUploader
+                uploadedFiles={uploadedFiles}
+                setUploadedFiles={setUploadedFiles}
+                setUploadedPreview={setUploadedPreview}
+                setMaxPartsAmount={setMaxPartsAmount}
+              />
+            </Box>
+          )}
+          <TextField
+            sx={{ my: 3, minWidth: 280 }}
+            label={<Typography variant="body2">Название коллекции</Typography>}
+            color="secondary"
+            variant="standard"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField
+            sx={{ mb: 3, minWidth: 280 }}
+            label={
+              <Typography variant="body2">
+                На сколько частей поделить картинку?
+              </Typography>
+            }
+            color="secondary"
+            variant="standard"
+            type="text"
+            value={partsAmount}
+            onChange={(e) =>
+              setPartsAmount(
+                Math.min(
+                  +(e.target.value.match(/\d/g)?.join("") || ""),
+                  maxPartsAmount
                 )
-              }
-            />
-            <Button
-              variant="contained"
-              onClick={sendDataClickHandler}
-              disabled={loading}
-              size="large"
-              sx={{
-                background: `linear-gradient(35deg, var(--secondary-main) 13%, var(--primary-main) 75%)`,
-                width: "100%",
-                maxWidth: 300,
-                mt: 3,
-                "&::after": !loading
-                  ? {
+              )
+            }
+          />
+          <Button
+            variant="contained"
+            onClick={sendDataClickHandler}
+            disabled={loading}
+            size="large"
+            sx={{
+              background: `linear-gradient(35deg, var(--secondary-main) 13%, var(--primary-main) 75%)`,
+              width: "100%",
+              maxWidth: 300,
+              mt: 3,
+              "&::after": !loading
+                ? {
                     content: "''",
                     position: "absolute",
                     top: 0,
@@ -188,7 +190,7 @@ export default function CreateNFT() {
                     opacity: 0,
                     zIndex: 0,
                   }
-                  : {
+                : {
                     content: "''",
                     position: "absolute",
                     top: 0,
@@ -199,25 +201,24 @@ export default function CreateNFT() {
                     opacity: 1,
                     zIndex: 0,
                   },
-                "&:hover::after": {
-                  opacity: 1,
-                },
-              }}
-            >
-              <Typography variant="body1" sx={{ zIndex: 1 }}>
-                Выпустить
-              </Typography>
-              {loading ? (
-                <CircularProgress
-                  color="info"
-                  size={22}
-                  sx={{ ml: 1, zIndex: 1 }}
-                />
-              ) : null}
-            </Button>
-          </>
-        )}
-      </Box>
-    </Suspense>
+              "&:hover::after": {
+                opacity: 1,
+              },
+            }}
+          >
+            <Typography variant="body1" sx={{ zIndex: 1 }}>
+              Выпустить
+            </Typography>
+            {loading ? (
+              <CircularProgress
+                color="info"
+                size={22}
+                sx={{ ml: 1, zIndex: 1 }}
+              />
+            ) : null}
+          </Button>
+        </>
+      )}
+    </Box>
   );
 }

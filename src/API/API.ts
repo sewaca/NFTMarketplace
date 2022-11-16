@@ -48,6 +48,7 @@ class API {
 
   // POST /login/
   loginUser = async ({ email, password }: ILoginUser) => {
+    // TODO: Uncomment logic for login. Now it's commented 
     return new Promise((resolve, reject) => {
       resolve({ json: () => ({ status: "ok" }) });
     });
@@ -64,10 +65,15 @@ class API {
       body: JSON.stringify({ email, wallet }),
     });
   };
+
+  // GET /user/
+  getUserInfo = async ()=>{
+    return 
+  }
 }
 
 export default new API();
-
+  
 interface IGetNftProps {
   id: number;
 }

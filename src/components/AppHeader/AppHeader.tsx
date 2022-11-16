@@ -37,19 +37,19 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
   const links = limitedMode
     ? [{ to: "/", title: "Торговая площадка", id: "marketplace" }]
     : [
-        { to: "/", title: "Торговая площадка", id: "marketplace" },
-        {
-          to: "/create",
-          title: "Создать коллекцию",
-          id: "createOwnCollection",
-        },
-        { to: "/my", title: "Мои коллекции", id: "myCollection" },
-      ];
+      { to: "/", title: "Торговая площадка", id: "marketplace" },
+      {
+        to: "/create",
+        title: "Создать коллекцию",
+        id: "createOwnCollection",
+      },
+      { to: "/my", title: "Мои коллекции", id: "myCollection" },
+    ];
 
   return (
     <AppBar color="default">
       <Toolbar variant="dense">
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: ["none", "flex"] }}>
           {links.map((link) => (
             <Link to={link.to} className={styles.AppHeader__Link} key={link.id}>
               <Typography
@@ -128,7 +128,14 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
                   </Typography>
                 </MenuItem>
                 <MenuItem>
-                  <Typography>Личный кабинет</Typography>
+                  <Link to="/cabinet" style={{ textDecoration: "unset" }}>
+                    <Typography color="white">Личный кабинет</Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem
+                  onClick={(e) => { deactivate(); setIsMenuOpened(null); }}
+                >
+                  <Typography>Выйти из кошелька</Typography>
                 </MenuItem>
                 <MenuItem
                   onClick={(e) => {
@@ -137,7 +144,7 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
                     removeLogin("login");
                   }}
                 >
-                  <Typography>Выйти</Typography>
+                  <Typography>Выйти из аккаунта</Typography>
                 </MenuItem>
               </Menu>
             </Box>

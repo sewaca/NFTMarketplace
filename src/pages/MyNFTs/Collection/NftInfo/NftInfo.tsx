@@ -19,33 +19,13 @@ export default function NftInfo({ nft }: NftInfoProps) {
   return (
     <div style={{ padding: "0 6px", height: "100%" }}>
       <Card className={styles.NFTInfoCard}>
-        <Link
-          to={"/nft/" + nft.id}
-          className={styles.NFTInfoCard__Link}
-        />
+        <Link to={"/nft/" + nft.id} className={styles.NFTInfoCard__Link} />
         <CardMedia>
           {nft.img ? (
-            <div
-              style={{
-                width: 230,
-                height: 230,
-                margin: "0 auto",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
+            <div className={styles.NFT__ImageBlock}>
               <img
                 src={nft.img}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  margin: "auto",
-                  height: "100%",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                }}
+                className={styles.NFT__Image}
                 alt="2"
               />
             </div>

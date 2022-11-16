@@ -24,7 +24,8 @@ export default function DragNDropUploader({
   const maxFileSize = 20 * 1024 * 1024; // in B
   const maxFilesAmount = 1;
 
-  const addUploadedFiles = (files: Array<File>) => {
+  // Функция, срабатывающая при загрузке файлов 
+  const onUpload = (files: Array<File>) => {
     // Оставляем только файлы удовлетворяющие условиям
     files = files.filter((file) => {
       // Сделаем прямо в filter вывод ошибок пользователю.
@@ -74,7 +75,7 @@ export default function DragNDropUploader({
     e.preventDefault();
     setIsDragging(false);
     let files: Array<File> = Array.from(e.dataTransfer?.files || []);
-    addUploadedFiles(files);
+    onUpload(files);
   };
 
   const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) =>
@@ -82,7 +83,7 @@ export default function DragNDropUploader({
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = Array.from(e.target.files || []);
-    addUploadedFiles(files);
+    onUpload(files);
   };
 
   const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

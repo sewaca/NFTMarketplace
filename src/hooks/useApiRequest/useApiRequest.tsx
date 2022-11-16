@@ -1,8 +1,7 @@
-import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface useApiRequestProps {
-  request: Promise<any>;
+  request: () => Promise<any>;
   key?: string;
 }
 
@@ -13,14 +12,10 @@ export default function useApiRequest({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [data, setData] = useState<any>("");
-  const { enqueueSnackbar } = useSnackbar();
-
-  const errorText = "Произошла ошибка. Попробуйте позже";
-  const successText = "Коллекция успешно выпущенна";
 
   useEffect(() => {
     console.log("new request with key: ", key);
-    request
+    request()
       .then((ans) => {
         setLoading(false);
         // enqueueSnackbar(successText, { variant: "success" });
