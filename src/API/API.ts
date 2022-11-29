@@ -1,21 +1,22 @@
 class API {
   url = "http://localhost:821";
-  // url = "http://localhost:8080";
 
-  // GET /market?page=_&limit=_
-  getMarket = async ({ page = 1, limit = 30 }: IGetMarket) => {
+  // GET /market?page=_&limit=_&nftAmount=_
+  getMarket = async ({ page = 1, limit = 4, nftAmount = 10 }: IGetMarket) => {
     return fetch(
       this.url +
         `/market?` +
-        new URLSearchParams({ page: page.toString(), limit: limit.toString() })
+        new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          nftAmount: nftAmount.toString(),
+        })
     );
   };
 
-  // GET /market/
+  // GET /market/:id
   getNft = async ({ id }: IGetNft) => {
-    return fetch(
-      this.url + `/market?` + new URLSearchParams({ id: id.toString() })
-    );
+    return fetch(this.url + `/market/` + id.toString());
   };
 
   // POST /buy/
@@ -34,7 +35,7 @@ class API {
     });
   };
 
-  // GET /getUserCollections  /
+  // GET /getUserCollections/
   getMyCollections = async ({ login }: IGetMyCollections) => {
     return fetch(
       this.url + `/getUserCollections?` + new URLSearchParams({ login })
@@ -88,6 +89,7 @@ interface IGetNft {
 interface IGetMarket {
   page?: number;
   limit?: number;
+  nftAmount?: number;
 }
 interface ISendImageRequest {
   nblocks: number;

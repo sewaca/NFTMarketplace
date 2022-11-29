@@ -1,0 +1,19 @@
+.NFTPage__ImageBlock {
+  user-select: none;
+  position: relative;
+}
+.NFTPage__ImageBlock::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
+.NFTPage__InfoBlock {
+  margin-top: 12px;
+}
+.InfoBlock__Link {
+  color: var(--primary-main);
+}

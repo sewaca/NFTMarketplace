@@ -1,26 +1,20 @@
 // Pages & Components :
-import Collection from "./Collection";
 import ErrorPage from "../ErrorPage";
 import Loader from "../../components/Loader";
 // Hooks
-import { useCoingeckoPrice } from "@usedapp/coingecko";
 import { useEthers } from "@usedapp/core";
 import useApiRequest from "../../hooks/useApiRequest";
 // Other
 import API from "../../API/API";
 import { ICollection } from "../../types";
-// SLICK-CAROUSEL CSS FILES:
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./slick_customization.css";
+
+import { CollectionByData } from "../../components/CollectionById";
 
 export default function MyNFTs() {
-  const coinPrice = useCoingeckoPrice("ethereum", "usd");
   const { account } = useEthers();
   const { loading, error, data } = useApiRequest({
-    request: ()=>API.getMyCollections({ login: account || "" }).then((res) =>
-      res.json()
-    ),
+    request: () =>
+      API.getMyCollections({ login: account || "" }).then((res) => res.json()),
     key: "getCollections_" + account,
   });
 
@@ -30,10 +24,11 @@ export default function MyNFTs() {
     <ErrorPage errorCode="unavailable" />
   ) : (
     data.map((collection: ICollection) => (
-      <Collection
+      <CollectionByData
+        hideSeller
+        hideLike
         key={collection.id}
-        {...{ collection }}
-        coinPrice={coinPrice ? parseFloat(coinPrice) : 0}
+        data={collection}
       />
     ))
   );

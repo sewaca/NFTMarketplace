@@ -1,39 +1,41 @@
 // Components & Pages
-import { Grid } from "@mui/material";
+import { Typography } from "@mui/material";
 import Loader from "../../components/Loader";
-import GoodCard from "./GoodCard";
 import ErrorPage from "../ErrorPage";
-// Hooks: 
+// Hooks:
 import useApiRequest from "../../hooks/useApiRequest";
-import { useCoingeckoPrice } from "@usedapp/coingecko";
 import { useState } from "react";
-// Other :  
+// Other :
 import API from "../../API/API";
-import { INFT } from "../../types";
+import { ICollection } from "../../types";
+import { CollectionByData } from "../../components/CollectionById";
 
-const perPage = 12;
+const perPage = 3;
 export default function Market() {
   const [page, setPage] = useState(1);
-  const coinPrice = useCoingeckoPrice("ethereum", "usd");
 
   const { loading, data, error } = useApiRequest({
-    request: ()=>API.getMarket({ page, limit: perPage }).then((res) => res.json()),
+    request: () =>
+      API.getMarket({ page, limit: perPage, nftAmount: 10 }).then((res) =>
+        res.json()
+      ),
     key: "getMarket_page=" + page + "&limit=" + perPage,
   });
 
-  return loading ? (
-    <Loader />
-  ) : error ? (
-    <ErrorPage errorCode="unavailable" />
-  ) : (
-    <Grid container spacing={2}>
-      {data.map((good: INFT) => (
-        <GoodCard
-          good={good}
-          key={good.id}
-          coinPrice={coinPrice ? parseFloat(coinPrice) : 0}
-        />
-      ))}
-    </Grid>
+  return (
+    <>
+      <Typography variant="h4" sx={{ mb: 4, textAlign: "center" }}>
+        Маркетплейс:
+      </Typography>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <ErrorPage errorCode="unavailable" />
+      ) : (
+        data.map((collection: ICollection) => (
+          <CollectionByData data={collection} />
+        ))
+      )}
+    </>
   );
 }

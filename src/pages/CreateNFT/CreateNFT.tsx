@@ -14,12 +14,11 @@ import DragNDropUploader from "./DragNDropUploader";
 import useApiMutation from "../../hooks/useApiMutation";
 import { useEthers } from "@usedapp/core";
 import { useSnackbar } from "notistack";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 // Other:
 import API from "../../API/API";
 // CSS :
 import styles from "./create-nft.module.css";
-import ErrorPage from "../ErrorPage";
 
 export default function CreateNFT() {
   const [uploadedFiles, setUploadedFiles] = useState<Array<File>>([]);
@@ -61,7 +60,6 @@ export default function CreateNFT() {
         "Пожалуйста, укажите верное количество частей для деления картинки",
         { variant: "error" }
       );
-
     // Если данные введены пользователем верно, то отправляем запрос на backend
     const fr = new FileReader();
     fr.readAsDataURL(uploadedFiles[0]);
@@ -172,50 +170,22 @@ export default function CreateNFT() {
             onClick={sendDataClickHandler}
             disabled={loading}
             size="large"
-            sx={{
-              background: `linear-gradient(35deg, var(--secondary-main) 13%, var(--primary-main) 75%)`,
-              width: "100%",
-              maxWidth: 300,
-              mt: 3,
-              "&::after": !loading
-                ? {
-                    content: "''",
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    transition: ".3s",
-                    background: "rgba(0,0,0,0.4)",
-                    opacity: 0,
-                    zIndex: 0,
-                  }
-                : {
-                    content: "''",
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    background: "rgba(255,255,255,0.4)",
-                    opacity: 1,
-                    zIndex: 0,
-                  },
-              "&:hover::after": {
-                opacity: 1,
-              },
-            }}
+            className={
+              styles.PageBox__submitButton +
+              " " +
+              (loading ? styles.LoadingButton : "")
+            }
           >
             <Typography variant="body1" sx={{ zIndex: 1 }}>
               Выпустить
             </Typography>
-            {loading ? (
+            {loading && (
               <CircularProgress
                 color="info"
                 size={22}
                 sx={{ ml: 1, zIndex: 1 }}
               />
-            ) : null}
+            )}
           </Button>
         </>
       )}

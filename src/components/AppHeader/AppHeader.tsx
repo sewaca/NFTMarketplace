@@ -47,6 +47,7 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
         { to: "/my", title: "Мои коллекции", id: "myCollection" },
       ];
 
+  // TODO: Прибраться тут
   return (
     <AppBar color="default">
       <Toolbar variant="dense">
@@ -145,10 +146,12 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
                   onClick={(e) => {
                     deactivate();
                     setIsMenuOpened(null);
-                    removeLogin("login");
+                    removeLogin("login", { path: "/" });
                   }}
                 >
-                  <Typography>Выйти из аккаунта</Typography>
+                  <Typography sx={{ color: "#ea3b3b" }}>
+                    Выйти из аккаунта
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Box>

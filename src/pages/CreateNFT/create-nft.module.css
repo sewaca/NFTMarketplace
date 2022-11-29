@@ -1,69 +1,73 @@
 .PageBox {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
 }
 /* Response Grid */
 .PageBox__ResponseGrid {
-	display: grid;
-	grid-gap: 2px;
-	border-radius: 25px;
-	background-color: var(--block-background);
-	padding: 15px;
-	max-width: 800px;
+  display: grid;
+  grid-gap: 2px;
+  border-radius: 25px;
+  background-color: var(--block-background);
+  padding: 15px;
+  max-width: 800px;
 }
 .PageBox__ResponseGrid img {
-	display: block;
-	padding: 1px;
-	width: 100%;
-	height: 100%;
+  display: block;
+  padding: 1px;
+  width: 100%;
+  height: 100%;
 }
 /* Rectangle */
 .Rectangle {
-	position: relative;
-	border: 2px solid var(--primary-dark);
-	border-radius: 25px;
-	background: var(--block-background);
-	padding: 15px;
-	min-width: calc(min(50vw, 800px));
-	max-width: 800px;
-	min-height: 30vh;
+  position: relative;
+  border: 2px solid var(--primary-dark);
+  border-radius: 25px;
+  background: var(--block-background);
+  padding: 15px;
+  min-width: calc(min(50vw, 800px));
+  max-width: 800px;
+  min-height: 30vh;
 }
 .Rectangle__removeButton {
-	position: absolute !important;
-	top: 10px !important;
-	right: 10px !important;
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
 }
 .Rectangle__image {
-	display: block;
-	margin: 0 auto;
-	max-width: calc(min(100%, 600px));
-	max-height: calc(min(60vh, 400px));
+  display: block;
+  margin: 0 auto;
+  max-width: calc(min(100%, 600px));
+  max-height: calc(min(60vh, 400px));
 }
-/*  */
-.PageBox__TextField {
-	margin-top: 12px;
-	min-width: 280px;
+
+.PageBox__submitButton {
+  background: linear-gradient(
+    35deg,
+    var(--secondary-main) 13%,
+    var(--primary-main) 75%
+  );
+  width: 100%;
+  max-width: 300px;
+  margin-top: 24px;
 }
-.PageBox__sendButton {
-	position: relative;
-	transition: 0.3s;
-	z-index: 1;
-	background: var(--button-background-gradient);
-	width: 100%;
-	overflow: hidden;
-}
-.PageBox__sendButton::before {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	transition: 0.3s;
+.PageBox__submitButton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+	transition: .3s;
 	z-index: 0;
-	content: "";
+	opacity: 0;
+	background: rgba(0,0,0,0.4);
 }
-.PageBox__sendButton:hover::before {
-	background-color: rgba(0, 0, 0, 0.4);
+.PageBox__submitButton:hover::after{
+	opacity: 1;
+}
+.PageBox__submitButton.LoadingButton{
+	background: rgba(255,255,255,0.4);
+	opacity: 1;
 }

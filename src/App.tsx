@@ -5,14 +5,14 @@ import ErrorPage from "./pages/ErrorPage";
 import Market from "./pages/Market";
 import MyNFTs from "./pages/MyNFTs";
 import CreateNFT from "./pages/CreateNFT";
+import Settings from "./pages/Settings";
 // other :
 import { Route, Routes } from "react-router-dom";
 import { ReactNode } from "react";
 // Hooks
 import { useCookies } from "react-cookie";
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
-import { useCoingeckoPrice } from "@usedapp/coingecko";
-import Settings from "./pages/Settings";
+import NFTPage from "./pages/NFTPage";
 
 type IGetDefaultLayoutProps = (
   el: ReactNode,
@@ -21,6 +21,7 @@ type IGetDefaultLayoutProps = (
 
 function App() {
   const { account } = useEthers();
+
   const [{ login }] = useCookies(["login"]);
   let limitedMode = !login;
 
@@ -33,7 +34,9 @@ function App() {
       <Container sx={{ pt: 9, pb: 3 }}>
         {onlyAuthorized && (!account || !login) ? (
           <ErrorPage errorCode="requiredAuthorization" />
-        ) : el}
+        ) : (
+          el
+        )}
       </Container>
     </>
   );
@@ -44,7 +47,11 @@ function App() {
       <Route path="/create/" element={getDefaultLayout(<CreateNFT />, true)} />
       <Route path="/my/" element={getDefaultLayout(<MyNFTs />, true)} />
       <Route path="/settings/" element={getDefaultLayout(<Settings />, true)} />
-      <Route path="*" element={getDefaultLayout(<ErrorPage errorCode="404" />)} />
+      <Route path="/nft/:id" element={getDefaultLayout(<NFTPage />, true)} />
+      <Route
+        path="*"
+        element={getDefaultLayout(<ErrorPage errorCode="404" />)}
+      />
     </Routes>
   );
 }

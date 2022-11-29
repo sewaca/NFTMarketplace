@@ -1,19 +1,21 @@
+// Layout
 import { Box, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
+import ErrorPage from "../ErrorPage";
+import ChangeNicknameTab from "./ChangeNicknameTab";
+// hooks:
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
-import API from "../../API/API";
-import Loader from "../../components/Loader";
 import useApiRequest from "../../hooks/useApiRequest";
-import ErrorPage from "../ErrorPage";
-import "./cabinet.module.css";
-import ChangeNicknameTab from "./ChangeNicknameTab";
+// Other :
+import API from "../../API/API";
 
 interface CabinetProps {}
 
 export default function Settings({}: CabinetProps) {
   const [active, setActive] = useState(0);
   const [{ login }] = useCookies(["login"]);
-  // TODO: Разделить запрос и раскидать по табам
+
+  // TODO: Возможно стоит разделить запрос и раскидать по табам
   const {
     data: userData,
     loading,
@@ -80,11 +82,16 @@ export default function Settings({}: CabinetProps) {
           ))}
         </Tabs>
         {loading ? (
-            <CircularProgress sx={{mt: 6, mx: "auto"}} />
+          <CircularProgress sx={{ mt: 6, mx: "auto" }} />
         ) : (
           tabs.map((tab, i) => (
-            <div key={"tab__" + i} role="tabpanel" hidden={active !== i}>
-              <Box sx={{ py: 1, px: 4 }}>{tab.content}</Box>
+            <div
+              key={"tab__" + i}
+              role="tabpanel"
+              hidden={active !== i}
+              style={{ width: "100%" }}
+            >
+              <Box sx={{ py: 1, px: 4, mx: "auto" }}>{tab.content}</Box>
             </div>
           ))
         )}

@@ -1,4 +1,5 @@
 const http = require("http");
+const { parseJsonText } = require("typescript");
 const fs = require("fs").promises;
 var URL = require("url");
 
@@ -33,7 +34,7 @@ const authors = [
 const randomId = () => Math.random().toString(16).slice(2, 10);
 const randomImage = () => images[Math.floor(Math.random() * images.length)];
 const randomTitle = () => titles[Math.floor(Math.random() * titles.length)];
-const randomPrice = () => (Math.random() * 100).toFixed(3);
+const randomPrice = () => (Math.random() / 10).toFixed(3);
 const randomDate = () =>
   `${Math.floor(Math.random() * 27)}.${Math.floor(
     Math.random() * 3 + 10
@@ -49,6 +50,7 @@ function randomNFT() {
       id: randomId(),
       title: randomTitle(),
     },
+    liked: Math.random() > 0.6,
     id: randomId(),
     img: randomImage(),
     price: randomPrice(),
@@ -57,10 +59,40 @@ function randomNFT() {
   };
 }
 
+const randomCollection = (nftAmount = 4) => ({
+  id: randomId(),
+  title: randomTitle(),
+  author: randomAuthor(),
+  minPrice: randomPrice(),
+  lastBuy: "20.11.2022",
+  available: Math.floor(Math.random() * 10000),
+  nfts: [...Array(nftAmount)].map(() => randomId()),
+});
+
 const requestListener = function (req, res) {
   console.log("request on", URL.parse(req.url, true).pathname);
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  const path = URL.parse(req.url, true).pathname;
+
+  // ~ /market/
+  if (path.indexOf("market") !== -1) {
+    res.writeHead(200);
+    if (path.split("/").length > 2) {
+      setTimeout(() => {
+        res.end(JSON.stringify(randomNFT()));
+      }, 1000);
+    } else {
+      res.end(
+        JSON.stringify(
+          [...Array(parseInt(URL.parse(req.url, true).query.limit))].map(() =>
+            randomCollection(parseInt(URL.parse(req.url, true).query.nftAmount))
+          )
+        )
+      );
+    }
+    return;
+  }
 
   if (req.url.indexOf("/user?") !== -1) {
     let fields = JSON.parse(URL.parse(req.url, true).query.fields);
@@ -76,18 +108,6 @@ const requestListener = function (req, res) {
 
     res.writeHead(200);
     res.end(JSON.stringify(ans));
-    return;
-  }
-  // ~ /market/
-  if (req.url.indexOf("market") !== -1) {
-    var [url] = req.url.split("?");
-    var response = undefined;
-    if (url.replaceAll("market", "").replaceAll("/", "").length)
-      response = randomNFT();
-    else response = [...Array(10)].map(() => randomNFT());
-
-    res.writeHead(200);
-    res.end(JSON.stringify(response));
     return;
   }
 
@@ -111,19 +131,13 @@ const requestListener = function (req, res) {
   }
 
   // ~ /getUserCollections/
-  if (req.url.indexOf("getUserCollections") !== -1) {
+  if (path.indexOf("getUserCollections") !== -1) {
     res.writeHead(200);
     res.end(
       JSON.stringify(
-        [...Array(Math.floor(Math.random() * 10 + 1))].map(() => ({
-          author: randomAuthor(),
-          available: Math.floor(Math.random() * 1000),
-          bought: [...Array(Math.floor(Math.random() * 10 + 1))].map(randomNFT),
-          id: randomId(),
-          lastBuy: randomDate(),
-          minPrice: randomPrice(),
-          title: randomTitle(),
-        }))
+        [...Array(Math.floor(Math.random() * 10 + 1))].map(() =>
+          randomCollection()
+        )
       )
     );
     return;

@@ -1,9 +1,10 @@
+// Layout
 import { Button, Typography } from "@mui/material";
-import React, { ReactNode, useState } from "react";
-
 import { Link } from "react-router-dom";
 import LoginModal from "../../components/LoginModal";
 import RegistrationModal from "../../components/RegistrationModal";
+// Hooks
+import React, { ReactNode, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useEthers } from "@usedapp/core";
 

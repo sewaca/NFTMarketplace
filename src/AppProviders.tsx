@@ -6,7 +6,7 @@ import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@emotion/react";
 import { getDefaultProvider } from "ethers";
 
-// Config for UseDApp 
+// Config for UseDApp
 const config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
@@ -52,6 +52,13 @@ const theme = createTheme({
       fontFamily: ["Blender Pro", "Space Grotesk", "Roboto", "sans-serif"].join(
         ","
       ),
+    },
+  },
+  components: {
+    MuiSkeleton: {
+      defaultProps: {
+        animation: "wave",
+      },
     },
   },
 });

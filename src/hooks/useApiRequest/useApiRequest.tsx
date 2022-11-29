@@ -27,7 +27,7 @@ export default function useApiRequest({
         // enqueueSnackbar(errorText, { variant: "error" });
         setError(err);
       });
-  }, [key]);
+  }, []);
 
   return { loading, error, data };
 }

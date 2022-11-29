@@ -13,6 +13,7 @@ export type INFT = {
     title: string;
     author: IUser;
   };
+  liked: boolean;
   seller: IUser;
 };
 
@@ -23,5 +24,5 @@ export type ICollection = {
   minPrice: number;
   lastBuy: string;
   available: number;
-  bought: Array<INFT>;
+  nfts: Array<number>;
 };
