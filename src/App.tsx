@@ -12,7 +12,7 @@ import { ReactNode, useContext } from "react";
 // Hooks
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
 import NFTPage from "./pages/NFTPage";
-import { LoginContext } from "./AppProviders";
+import { LoginContext } from "./contexts/LoginContext";
 
 type IGetDefaultLayoutProps = (
   el: ReactNode,

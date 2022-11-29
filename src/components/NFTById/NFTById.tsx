@@ -47,6 +47,7 @@ interface NFTProps {
   coinPrice?: number | undefined;
 }
 
+// BUG: card is "jumping", when you interact with it 
 export function NFT({
   data,
   loading = false,

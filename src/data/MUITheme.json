@@ -1,0 +1,28 @@
+{
+  "palette": {
+    "primary": {
+      "main": "#FF003C",
+      "contrastText": "#FFFFFF",
+      "dark": "#CA0F3B"
+    },
+    "secondary": {
+      "main": "#FFF700",
+      "contrastText": "#000000",
+      "dark": "#b6b000"
+    },
+    "mode": "dark"
+  },
+  "typography": {
+    "fontFamily": "Space Grotesk,Blender Pro,Roboto,sans-serif",
+    "fontSize": 17,
+    "body2": {
+      "fontFamily": "Blender Pro,Space Grotesk,Roboto,sans-serif",
+      "fontSize": 20,
+      "fontWeight": 600,
+      "lineHeight": 1
+    },
+    "h5": { "fontFamily": "Blender Pro,Space Grotesk,Roboto,sans-serif" },
+    "h6": { "fontFamily": "Blender Pro,Space Grotesk,Roboto,sans-serif" }
+  },
+  "components": { "MuiSkeleton": { "defaultProps": { "animation": "wave" } } }
+}

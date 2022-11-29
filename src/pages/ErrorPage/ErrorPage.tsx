@@ -6,7 +6,7 @@ import RegistrationModal from "../../components/RegistrationModal";
 // Hooks
 import React, { ReactNode, useContext, useState } from "react";
 import { useEthers } from "@usedapp/core";
-import { LoginContext } from "../../AppProviders";
+import { LoginContext } from "../../contexts/LoginContext";
 
 interface ErrorPageProps {
   errorCode: "requiredAuthorization" | "unavailable" | "404" | string;

@@ -7,7 +7,7 @@ import React, { useContext, useState } from "react";
 import useApiRequest from "../../hooks/useApiRequest";
 // Other :
 import API from "../../API/API";
-import { LoginContext } from "../../AppProviders";
+import { LoginContext } from "../../contexts/LoginContext";
 
 interface CabinetProps {}
 

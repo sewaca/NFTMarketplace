@@ -7,14 +7,23 @@
   npm start
 ```
 
+### ABOUT FOLDERS IN PROJECT:
+
+- server: test dev server
+- public: contains everything related with html template of the website
+- src: main folder
+  - API: contains request to backend
+  - assets: contains static css/js files
+  - components: contains reusable components
+  - contexts: contains react contexts
+  - data: contains static .json (configs, etc)
+  - hooks: contains custom react hooks
+  - pages: contains pages
+
 ### WHAT'S NEW?
 
-+ fully abandoned the use of Cookies for security reasons
-+ added login context (more in AppProviders)
-+ fixed bug with "jumping" image in nft card
-+ some css fixes for mobile & tablet views
-+ removed "react-cookie" package from project
-+ finally cleaned code in AppHeader component
-  Account menu is now in another sub-element
-+ fixed bug with unchecked like button in NFT card
-+ fixed mobile view in ./components/collection 
+- temporarilly commented conditional rendering (index.tsx)
+- moved global css to ./stc/assets/x.global.css
+- moved some static configs into ./src/data/x.json
+- moved react contexts to ./src/contexts/x
+- wrote folders description :)

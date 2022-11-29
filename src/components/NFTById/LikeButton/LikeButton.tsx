@@ -1,7 +1,7 @@
 import { IconButton, Tooltip, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../../../AppProviders";
+import { LoginContext } from "../../../contexts/LoginContext";
 
 interface LikeButtonProps {
   liked: boolean;

@@ -16,7 +16,7 @@ import React, {
   useState,
 } from "react";
 import API from "../../API/API";
-import { LoginContext } from "../../AppProviders";
+import { LoginContext } from "../../contexts/LoginContext";
 import useApiMutation from "../../hooks/useApiMutation";
 import useApiRequest from "../../hooks/useApiRequest";
 import { ModalContentStyle, InputBoxStyle, InputStyle } from "./styles";

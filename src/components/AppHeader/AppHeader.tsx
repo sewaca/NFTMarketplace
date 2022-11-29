@@ -21,7 +21,7 @@ import { formatEther } from "ethers/lib/utils";
 // CSS:
 import styles from "./AppHeader.module.css";
 import AccountMenu from "./AccountMenu";
-import { LoginContext } from "../../AppProviders";
+import { LoginContext } from "../../contexts/LoginContext";
 
 // Hooks&functions:
 
@@ -60,7 +60,6 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
     removeLogin();
   };
 
-  // TODO: Прибраться тут
   return (
     <AppBar>
       <Toolbar variant="dense">
