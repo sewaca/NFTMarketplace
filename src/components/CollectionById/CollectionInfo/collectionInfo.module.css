@@ -8,6 +8,14 @@
   transition: 0.3s;
   position: relative;
 }
+@media(max-width: 899px){
+  .Collection__Box{
+    width: 100%;
+    padding: 40px 32px 30px 32px;
+    max-width: 340px;
+    margin: 0 auto; 
+  }
+}
 .Collection__Box::before,
 .Collection__Box::after {
   content: "";

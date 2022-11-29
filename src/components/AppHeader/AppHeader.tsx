@@ -10,17 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import LoginModal from "../LoginModal";
 import RegistrationModal from "../RegistrationModal";
 // Hooks :
-import { useCookies } from "react-cookie";
 import { useEtherBalance } from "@usedapp/core/dist/esm/src/hooks/useEtherBalance";
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
 // Other :
 import { formatEther } from "ethers/lib/utils";
 // CSS:
 import styles from "./AppHeader.module.css";
+import AccountMenu from "./AccountMenu";
+import { LoginContext } from "../../AppProviders";
 
 // Hooks&functions:
 
@@ -30,12 +31,13 @@ interface IAppHeaderProps {
 
 export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
   const { account, activateBrowserWallet, deactivate } = useEthers();
+  const [, , removeLogin] = useContext(LoginContext);
   const etherBalance = useEtherBalance(account);
-  const [isMenuOpened, setIsMenuOpened] = useState<null | HTMLElement>(null);
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [modal, setModal] = useState<ReactNode | null>(null);
-  const [, , removeLogin] = useCookies(["login"]);
   const location = useLocation();
-  const links = limitedMode
+  // Ссылки в хедере
+  let links = limitedMode
     ? [{ to: "/", title: "Торговая площадка", id: "marketplace" }]
     : [
         { to: "/", title: "Торговая площадка", id: "marketplace" },
@@ -47,9 +49,20 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
         { to: "/my", title: "Мои коллекции", id: "myCollection" },
       ];
 
+  // Handlers:
+  const onWalletQuit = () => {
+    deactivate();
+    setMenuAnchor(null);
+  };
+  const onAccountQuit = () => {
+    deactivate();
+    setMenuAnchor(null);
+    removeLogin();
+  };
+
   // TODO: Прибраться тут
   return (
-    <AppBar color="default">
+    <AppBar>
       <Toolbar variant="dense">
         <Box sx={{ display: ["none", "flex"] }}>
           {links.map((link) => (
@@ -57,7 +70,7 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
               <Typography
                 variant="body1"
                 className={styles.AppHeader__LinkText}
-                color={location.pathname === link.to ? "grey.400" : "primary"}
+                color={location.pathname === link.to ? "grey.500" : "primary"}
               >
                 {link.title}
               </Typography>
@@ -94,66 +107,22 @@ export default function AppHeader({ limitedMode = false }: IAppHeaderProps) {
               <Tooltip title="Меню">
                 <Button
                   variant="outlined"
-                  onClick={(e) => setIsMenuOpened(e.currentTarget)}
+                  onClick={(e) => setMenuAnchor(e.currentTarget)}
                 >
                   {account.slice(0, 5)}...{account.slice(-4)}
                 </Button>
               </Tooltip>
-              <Menu
-                anchorEl={isMenuOpened}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                open={Boolean(isMenuOpened)}
-                onClose={() => setIsMenuOpened(null)}
-                sx={{ mt: 1 }}
-              >
-                <MenuItem>
-                  <Typography>
-                    Баланс:{" "}
-                    {etherBalance ? (
-                      <Typography
-                        component="span"
-                        sx={{ color: "primary.main" }}
-                      >
-                        {parseFloat(formatEther(etherBalance)).toFixed(4)} ETH
-                      </Typography>
-                    ) : (
-                      <Typography
-                        component="span"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        скрыт
-                      </Typography>
-                    )}
-                  </Typography>
-                </MenuItem>
-                <MenuItem>
-                  <Link to="/settings/" style={{ textDecoration: "unset" }}>
-                    <Typography color="white">Настройки</Typography>
-                  </Link>
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => {
-                    deactivate();
-                    setIsMenuOpened(null);
-                  }}
-                >
-                  <Typography>Выйти из кошелька</Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => {
-                    deactivate();
-                    setIsMenuOpened(null);
-                    removeLogin("login", { path: "/" });
-                  }}
-                >
-                  <Typography sx={{ color: "#ea3b3b" }}>
-                    Выйти из аккаунта
-                  </Typography>
-                </MenuItem>
-              </Menu>
+              <AccountMenu
+                anchor={menuAnchor}
+                balance={
+                  etherBalance
+                    ? parseFloat(formatEther(etherBalance)).toFixed(4)
+                    : 0
+                }
+                onClose={() => setMenuAnchor(null)}
+                onWalletQuit={onWalletQuit}
+                onAccountQuit={onAccountQuit}
+              />
             </Box>
           ) : (
             <Button

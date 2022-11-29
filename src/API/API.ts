@@ -52,7 +52,7 @@ class API {
 
   // POST /login/
   loginUser = async ({ email, password }: ILoginUser) => {
-    // TODO: Uncomment logic for login. Now it's commented
+    // TODO: Uncomment logic for login. Now in dev version it's commented
     return new Promise((resolve, reject) => {
       resolve({ json: () => ({ status: "ok" }) });
     });

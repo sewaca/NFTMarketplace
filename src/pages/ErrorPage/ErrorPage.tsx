@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import LoginModal from "../../components/LoginModal";
 import RegistrationModal from "../../components/RegistrationModal";
 // Hooks
-import React, { ReactNode, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { ReactNode, useContext, useState } from "react";
 import { useEthers } from "@usedapp/core";
+import { LoginContext } from "../../AppProviders";
 
 interface ErrorPageProps {
   errorCode: "requiredAuthorization" | "unavailable" | "404" | string;
@@ -15,7 +15,7 @@ interface ErrorPageProps {
 export default function ErrorPage({ errorCode }: ErrorPageProps) {
   const { activateBrowserWallet } = useEthers();
   const [modal, setModal] = useState<ReactNode | null>(null);
-  const [{ login }] = useCookies(["login"]);
+  const [login] = useContext(LoginContext);
 
   switch (errorCode) {
     case "404":

@@ -9,17 +9,12 @@
 
 ### WHAT'S NEW?
 
-+ some css moved from js to .css files
-+ UPDATED images in test server
-+ CREATED nft page
-+ DEPRECATED locale version of API 
-+ centralized NFT display in ./Components/NFTById
-+ centralized Collection display in ./Components/CollectionById
-+ fully REWORKED displaying logic of collections, 
-  No base64 strings in response now, only IDs of NFT.
-+ FIXED useApiRequest hook. No problems now with double request
-+ Cleaned up code
-+ Added header in Marketplace page
-+ Slick css files moved to index.tsx
-+ Removed old collection displaying in ./pages/MyNFTs
-
++ fully abandoned the use of Cookies for security reasons
++ added login context (more in AppProviders)
++ fixed bug with "jumping" image in nft card
++ some css fixes for mobile & tablet views
++ removed "react-cookie" package from project
++ finally cleaned code in AppHeader component
+  Account menu is now in another sub-element
++ fixed bug with unchecked like button in NFT card
++ fixed mobile view in ./components/collection 

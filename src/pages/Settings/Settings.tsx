@@ -3,17 +3,17 @@ import { Box, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
 import ErrorPage from "../ErrorPage";
 import ChangeNicknameTab from "./ChangeNicknameTab";
 // hooks:
-import React, { useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { useContext, useState } from "react";
 import useApiRequest from "../../hooks/useApiRequest";
 // Other :
 import API from "../../API/API";
+import { LoginContext } from "../../AppProviders";
 
 interface CabinetProps {}
 
 export default function Settings({}: CabinetProps) {
   const [active, setActive] = useState(0);
-  const [{ login }] = useCookies(["login"]);
+  const [login] = useContext(LoginContext);
 
   // TODO: Возможно стоит разделить запрос и раскидать по табам
   const {

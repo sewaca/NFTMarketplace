@@ -2,9 +2,6 @@
   text-decoration: none;
   margin-right: 6px;
 }
-.AppHeader__LinkText{
-  
-}
 .AppHeader__Link:hover .AppHeader__LinkText{
   text-decoration: underline;
 }

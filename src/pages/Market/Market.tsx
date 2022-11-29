@@ -33,7 +33,7 @@ export default function Market() {
         <ErrorPage errorCode="unavailable" />
       ) : (
         data.map((collection: ICollection) => (
-          <CollectionByData data={collection} />
+          <CollectionByData key={collection.id} data={collection} />
         ))
       )}
     </>

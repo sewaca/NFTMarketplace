@@ -8,11 +8,11 @@ import CreateNFT from "./pages/CreateNFT";
 import Settings from "./pages/Settings";
 // other :
 import { Route, Routes } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 // Hooks
-import { useCookies } from "react-cookie";
 import { useEthers } from "@usedapp/core/dist/esm/src/hooks/useEthers";
 import NFTPage from "./pages/NFTPage";
+import { LoginContext } from "./AppProviders";
 
 type IGetDefaultLayoutProps = (
   el: ReactNode,
@@ -21,9 +21,8 @@ type IGetDefaultLayoutProps = (
 
 function App() {
   const { account } = useEthers();
-
-  const [{ login }] = useCookies(["login"]);
-  let limitedMode = !login;
+  const [login] = useContext(LoginContext);
+  let limitedMode: boolean = !login;
 
   const getDefaultLayout: IGetDefaultLayoutProps = (
     el,

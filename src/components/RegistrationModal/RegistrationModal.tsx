@@ -9,9 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, {
+  ChangeEvent,
+  SyntheticEvent,
+  useContext,
+  useState,
+} from "react";
 import API from "../../API/API";
+import { LoginContext } from "../../AppProviders";
 import useApiMutation from "../../hooks/useApiMutation";
 import useApiRequest from "../../hooks/useApiRequest";
 import { ModalContentStyle, InputBoxStyle, InputStyle } from "./styles";
@@ -46,7 +51,8 @@ export default function RegistrationModal({
   closeHandler = () => {},
 }: RegistrationModalProps) {
   const [opened, setOpened] = useState(true);
-  const [, setLogin] = useCookies(["login"]);
+  const [, setLogin] = useContext(LoginContext);
+
   const { send } = useApiMutation();
   const { enqueueSnackbar } = useSnackbar();
   // Введнные пользователем данные
@@ -173,7 +179,7 @@ export default function RegistrationModal({
 
           if (ans.status === "ok") {
             enqueueSnackbar("Успешная регистрация", { variant: "success" });
-            setLogin("login", formdata.email);
+            setLogin(formdata.email);
             handleClose();
           }
 

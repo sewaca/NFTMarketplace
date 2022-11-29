@@ -1,15 +1,8 @@
-import {
-  Modal,
-  Fade,
-  Box,
-  Typography,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Modal, Fade, Box, Typography, TextField, Button } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, { ChangeEvent, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { ChangeEvent, useContext, useState } from "react";
 import API from "../../API/API";
+import { LoginContext } from "../../AppProviders";
 import useApiMutation from "../../hooks/useApiMutation";
 import { InputBoxStyle, InputStyle, ModalContentStyle } from "./styles";
 
@@ -32,11 +25,10 @@ interface LoginModalProps {
   closeHandler: Function;
 }
 export default function LoginModal({
-  closeHandler = () => { },
+  closeHandler = () => {},
 }: LoginModalProps) {
   const [opened, setOpened] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
-  const [, setLogin] = useCookies(["login"]);
   const { send } = useApiMutation();
   const [formdata, setFormdata] = useState({
     email: "",
@@ -46,6 +38,7 @@ export default function LoginModal({
     email: "",
     password: "",
   });
+  const [, setLogin] = useContext(LoginContext);
 
   // Handlers :
   const handleClose = () => {
@@ -96,7 +89,7 @@ export default function LoginModal({
               <Typography variant="body1">Успешная авторизация</Typography>,
               { variant: "success" }
             );
-            setLogin("login", formdata.email);
+            setLogin(formdata.email);
             handleClose();
           }
         })

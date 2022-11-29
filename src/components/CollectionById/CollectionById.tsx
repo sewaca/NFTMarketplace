@@ -38,13 +38,13 @@ export function CollectionByData({
 
   return (
     <Grid container sx={{ mb: 5 }} spacing={3}>
-      <Grid item md={4}>
+      <Grid item xs={12} md={4}>
         <CollectionInfo
           collection={collectionInfo}
           coinPrice={parseFloat(coinPrice || "0")}
         />
       </Grid>
-      <Grid item md={8}>
+      <Grid item xs={12} md={8}>
         <Slider
           variableWidth
           adaptiveHeight
@@ -55,7 +55,6 @@ export function CollectionByData({
         >
           {data.nfts.map((id: number) => (
             <div
-              id={"nftN_" + id}
               className={styles.CollectionInfo__NFTWrapper}
               key={id}
             >
