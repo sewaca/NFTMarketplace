@@ -10,7 +10,6 @@ import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@emotion/react";
 import { getDefaultProvider } from "ethers";
-import { createContext, useState } from "react";
 import MUITheme from "./data/MUITheme.json";
 import { LoginProvider } from "./contexts/LoginContext";
 

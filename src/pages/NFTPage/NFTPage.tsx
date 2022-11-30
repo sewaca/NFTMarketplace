@@ -1,6 +1,5 @@
-import { Box, Button, Grid, Skeleton, Typography } from "@mui/material";
+import { Button, Grid, Skeleton, Typography } from "@mui/material";
 import { useCoingeckoPrice } from "@usedapp/coingecko";
-import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import API from "../../API/API";
@@ -8,9 +7,7 @@ import useApiRequest from "../../hooks/useApiRequest";
 import ErrorPage from "../ErrorPage";
 import styles from "./nft-page.module.css";
 
-interface NFTPageProps {}
-
-export default function NFTPage({}: NFTPageProps) {
+export default function NFTPage() {
   // Параметр id берется из url строки
   let { id } = useParams();
   const { loading, data, error } = useApiRequest({
@@ -20,15 +17,18 @@ export default function NFTPage({}: NFTPageProps) {
   });
   const coinPrice = useCoingeckoPrice("ethereum", "usd");
 
+  // FIXME: Сейчас это 16-чное число, нужно переделать в обычное, 10-чное
   return isNaN(parseInt(id || "", 16)) ? (
     <ErrorPage errorCode="404" />
+  ) : error ? (
+    <ErrorPage errorCode="unavailable" />
   ) : (
     <Grid container spacing={4}>
       <Grid item xs={12} sm={6} lg={8} className={styles.NFTPage__ImageBlock}>
         {loading ? (
           <Skeleton sx={{ width: "100%", height: 300 }} variant="rectangular" />
         ) : (
-          <img src={data.img} width={"100%"} />
+          <img src={data.img} width={"100%"} alt={data.title} />
         )}
       </Grid>
       <Grid item xs={12} sm={6} lg={4}>

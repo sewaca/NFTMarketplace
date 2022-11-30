@@ -17,6 +17,7 @@ import API from "../../API/API";
 // CSS:
 import styles from "./NftById.module.css";
 import LikeButton from "./LikeButton";
+import ErrorPage from "../../pages/ErrorPage";
 
 interface NFTByIdProps {
   id: number;
@@ -36,7 +37,11 @@ export function NFTById({
     key: "getting_nft_id=" + id,
   });
 
-  return <NFT {...{ data, loading, hideSeller, hideLike, coinPrice }} />;
+  return error ? (
+    <ErrorPage errorCode="unavailable" />
+  ) : (
+    <NFT {...{ data, loading, hideSeller, hideLike, coinPrice }} />
+  );
 }
 
 interface NFTProps {
@@ -47,7 +52,7 @@ interface NFTProps {
   coinPrice?: number | undefined;
 }
 
-// BUG: card is "jumping", when you interact with it 
+// BUG: card is "jumping", when you interact with it
 export function NFT({
   data,
   loading = false,
@@ -81,7 +86,7 @@ export function NFT({
           {loading ? (
             <Skeleton sx={{ width: 150 }} />
           ) : (
-            <Typography variant="h6">{data.title}</Typography>
+            <Typography variant="h6">{data.title.slice(0, 23)}</Typography>
           )}
           {!hideLike && <LikeButton liked={data.liked} />}
         </div>
@@ -101,8 +106,7 @@ export function NFT({
                   fontWeight: 300,
                 }}
               >
-                {/* TODO: Тест с очень длинным именем */}
-                {data.seller.name}
+                {data.seller.name.slice(0, 20)}
               </Link>
             </Typography>
           ))}
@@ -127,9 +131,7 @@ export function NFT({
       </CardContent>
       <CardActions className={styles.Card__Actions}>
         <Button variant="contained" className={styles.Card__ActionButton}>
-          <Typography variant="body1">
-            Подробнее
-          </Typography>
+          <Typography variant="body1">Подробнее</Typography>
         </Button>
       </CardActions>
     </Card>

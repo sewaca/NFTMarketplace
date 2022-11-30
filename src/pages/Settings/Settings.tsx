@@ -9,9 +9,7 @@ import useApiRequest from "../../hooks/useApiRequest";
 import API from "../../API/API";
 import { LoginContext } from "../../contexts/LoginContext";
 
-interface CabinetProps {}
-
-export default function Settings({}: CabinetProps) {
+export default function Settings() {
   const [active, setActive] = useState(0);
   const [login] = useContext(LoginContext);
 

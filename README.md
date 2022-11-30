@@ -22,8 +22,6 @@
 
 ### WHAT'S NEW?
 
-- temporarilly commented conditional rendering (index.tsx)
-- moved global css to ./stc/assets/x.global.css
-- moved some static configs into ./src/data/x.json
-- moved react contexts to ./src/contexts/x
-- wrote folders description :)
+version xx.xx.xxxx (stable?)
+
+- removed excess imports 

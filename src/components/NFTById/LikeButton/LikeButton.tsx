@@ -16,6 +16,7 @@ export default function LikeButton({ liked }: LikeButtonProps) {
   // When prop liked changes - change state
   useEffect(() => {
     if (liked !== isLiked) setIsLiked(liked);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liked]);
 
   const handleClick = () => {

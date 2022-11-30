@@ -27,6 +27,7 @@ export default function useApiRequest({
         // enqueueSnackbar(errorText, { variant: "error" });
         setError(err);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { loading, error, data };

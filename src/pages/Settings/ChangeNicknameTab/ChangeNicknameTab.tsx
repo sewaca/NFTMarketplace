@@ -1,7 +1,5 @@
-import { Button, FormControl, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
-import API from "../../../API/API";
-import useApiRequest from "../../../hooks/useApiRequest";
+import { Button, FormControl, TextField } from "@mui/material";
+import { useState } from "react";
 
 interface ChangeNicknameTabProps {
   name: string;

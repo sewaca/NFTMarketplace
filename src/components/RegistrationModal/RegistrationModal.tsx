@@ -9,16 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, {
-  ChangeEvent,
-  SyntheticEvent,
-  useContext,
-  useState,
-} from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import API from "../../API/API";
 import { LoginContext } from "../../contexts/LoginContext";
 import useApiMutation from "../../hooks/useApiMutation";
-import useApiRequest from "../../hooks/useApiRequest";
 import { ModalContentStyle, InputBoxStyle, InputStyle } from "./styles";
 
 // Проверяем данные, вводимые пользователем :
