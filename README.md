@@ -5,6 +5,9 @@
 ```
   npm install
   npm start
+
+  (in other tab)
+  npm run server
 ```
 
 ### ABOUT FOLDERS IN PROJECT:
@@ -22,6 +25,4 @@
 
 ### WHAT'S NEW?
 
-version xx.xx.xxxx (stable?)
-
-- removed excess imports 
+- some minor changes in readme.md
