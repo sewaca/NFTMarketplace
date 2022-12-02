@@ -5,6 +5,7 @@ import { ICollection } from "../../types";
 import { NFTById } from "../NFTById";
 import styles from "./collection.module.css";
 import CollectionInfo from "./CollectionInfo";
+import LazyLoad from "react-lazyload";
 
 interface CollectionByIdProps {
   hideSeller?: boolean;
@@ -12,7 +13,7 @@ interface CollectionByIdProps {
 }
 
 // TODO: Написать request и компонент CollectionById
-export function CollectionById({hideSeller, hideLike}: CollectionByIdProps) {
+export function CollectionById({ hideSeller, hideLike }: CollectionByIdProps) {
   return <></>;
 }
 
@@ -54,14 +55,13 @@ export function CollectionByData({
           dotsClass={"SliderDots"}
         >
           {data.nfts.map((id: number) => (
-            <div
-              className={styles.CollectionInfo__NFTWrapper}
-              key={id}
-            >
-              <NFTById
-                {...{ id, hideSeller, hideLike }}
-                coinPrice={parseFloat(coinPrice || "0")}
-              />
+            <div className={styles.CollectionInfo__NFTWrapper} key={id}>
+              <LazyLoad>
+                <NFTById
+                  {...{ id, hideSeller, hideLike }}
+                  coinPrice={parseFloat(coinPrice || "0")}
+                />
+              </LazyLoad>
             </div>
           ))}
         </Slider>

@@ -63,7 +63,7 @@ export function NFT({
   return (
     <Card className={styles.NFTInfoCard}>
       <Link
-        to={"/nft/" + (data.id || 0)}
+        to={"/nft/" + (data?.id || 0)}
         className={styles.NFTInfoCard__Link}
       />
       <CardMedia sx={{ px: 0, mx: 0 }}>
@@ -88,7 +88,7 @@ export function NFT({
           ) : (
             <Typography variant="h6">{data.title.slice(0, 23)}</Typography>
           )}
-          {!hideLike && <LikeButton liked={data.liked} />}
+          {!hideLike && <LikeButton liked={data?.liked || false} />}
         </div>
 
         {!hideSeller &&

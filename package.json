@@ -1,7 +1,14 @@
 {
-  "name": "nftmarket",
-  "version": "0.1.0",
+  "name": "nftmarketplace",
   "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -13,52 +20,39 @@
     "@usedapp/core": "^1.1.5",
     "ethers": "^5.7.2",
     "notistack": "^2.0.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-lazyload": "^3.2.0",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "typescript": "^4.8.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.2",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@types/react-lazyload": "^3.2.0",
     "@types/react-router": "^5.1.19",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.10",
+    "@vitejs/plugin-react": "^2.2.0",
     "react-snap": "^1.23.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "server": "node server",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "__postbuild": "react-snap",
-    "eject": "react-scripts eject"
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sewaca/NFTMarketplace.git"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sewaca/NFTMarketplace/issues"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "homepage": "https://github.com/sewaca/NFTMarketplace#readme",
+  "description": ""
 }

@@ -5,30 +5,41 @@ interface useApiRequestProps {
   key?: string;
 }
 
+type IUseApiRequestAnswer = {
+  loading: boolean;
+  data: any;
+  error: string;
+};
+
 export default function useApiRequest({
   request,
   key = "default",
 }: useApiRequestProps) {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [data, setData] = useState<any>("");
+  const [state, setState] = useState<IUseApiRequestAnswer>({
+    loading: true,
+    data: undefined,
+    error: "",
+  });
 
   useEffect(() => {
     console.log("new request with key: ", key);
     request()
       .then((ans) => {
-        setLoading(false);
-        // enqueueSnackbar(successText, { variant: "success" });
-        setData(ans);
-        setError("");
+        setState({
+          loading: false,
+          data: ans,
+          error: "",
+        });
       })
       .catch((err) => {
-        setLoading(false);
-        // enqueueSnackbar(errorText, { variant: "error" });
-        setError(err);
+        setState({
+          loading: false,
+          data: undefined,
+          error: err,
+        });
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { loading, error, data };
+  return state;
 }

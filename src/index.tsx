@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { AppProviders } from "./AppProviders";
 // Шрифты
 import "@fontsource/roboto";
@@ -11,11 +11,13 @@ import "slick-carousel/slick/slick-theme.css";
 import "./assets/slick_customization.global.css";
 
 const container = document.getElementById("root") as HTMLElement;
-const root = ReactDOM.createRoot(container);
+// const root = ReactDOM.createRoot(container);
 
 // react snap
 // if (container.hasChildNodes()) {
 //   hydrate(<AppProviders />, container);
 // } else {
-root.render(<AppProviders />);
+// root.render(<AppProviders />);
 // }
+
+ReactDOM.render(<AppProviders />, container);

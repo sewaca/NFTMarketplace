@@ -1,5 +1,4 @@
 const http = require("http");
-const { parseJsonText } = require("typescript");
 const fs = require("fs").promises;
 var URL = require("url");
 
@@ -72,7 +71,7 @@ const randomCollection = (nftAmount = 4) => ({
 const requestListener = function (req, res) {
   console.log("request on", URL.parse(req.url, true).pathname);
   res.setHeader("Content-Type", "application/json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
   const path = URL.parse(req.url, true).pathname;
 
   // ~ /market/

@@ -16,8 +16,10 @@ interface CollectionInfoProps {
   coinPrice: number;
 }
 
-export default function CollectionInfo({ collection, coinPrice }: CollectionInfoProps) {
-  
+export default function CollectionInfo({
+  collection,
+  coinPrice,
+}: CollectionInfoProps) {
   return (
     <Box className={styles.Collection__Box}>
       <Typography variant="h5" sx={{ mb: 1 }}>

@@ -13,10 +13,9 @@ import { CollectionByData } from "../../components/CollectionById";
 const perPage = 3;
 export default function Market() {
   const [page, setPage] = useState(1);
-
   const { loading, data, error } = useApiRequest({
     request: () =>
-      API.getMarket({ page, limit: perPage, nftAmount: 10 }).then((res) =>
+      API.getMarket({ page, limit: perPage, nftAmount: 9 }).then((res) =>
         res.json()
       ),
     key: "getMarket_page=" + page + "&limit=" + perPage,
