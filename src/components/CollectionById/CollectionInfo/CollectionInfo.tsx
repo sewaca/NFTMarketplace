@@ -22,9 +22,14 @@ export default function CollectionInfo({
 }: CollectionInfoProps) {
   return (
     <Box className={styles.Collection__Box}>
-      <Typography variant="h5" sx={{ mb: 1 }}>
-        Коллекция "{collection.title}"
-      </Typography>
+      {/* <Link
+        to={"/collection/" + collection.id}
+        style={{ color: "var(--primary-main)" }}
+      > */}
+        <Typography variant="h5" sx={{ mb: 1 }}>
+          Коллекция "{collection.title}"
+        </Typography>
+      {/* </Link> */}
       <div className={styles.Collection__infoBlock}>
         <Typography variant="body2">Автор:</Typography>
         <Link

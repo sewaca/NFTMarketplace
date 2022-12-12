@@ -1,8 +1,9 @@
 import { Button, Grid, Skeleton, Typography } from "@mui/material";
-import { useCoingeckoPrice } from "@usedapp/coingecko";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import API from "../../API/API";
+import { CoinPriceContext } from "../../contexts/CoinGeckoProvider/CoinGeckoProvider";
 import useApiRequest from "../../hooks/useApiRequest";
 import ErrorPage from "../ErrorPage";
 import styles from "./nft-page.module.css";
@@ -10,15 +11,15 @@ import styles from "./nft-page.module.css";
 export default function NFTPage() {
   // Параметр id берется из url строки
   let { id } = useParams();
+
   const { loading, data, error } = useApiRequest({
     request: () =>
-      API.getNft({ id: parseInt(id || "", 16) }).then((res) => res.json()),
-    key: `get_nft_${parseInt(id || "", 16)}`,
+      API.getNft({ id: parseInt(id || "") }).then((res) => res.json()),
+    key: `get_nft_${parseInt(id || "")}`,
   });
-  const coinPrice = useCoingeckoPrice("ethereum", "usd");
+  const coinPrice = useContext(CoinPriceContext);
 
-  // FIXME: Сейчас это 16-чное число, нужно переделать в обычное, 10-чное
-  return isNaN(parseInt(id || "", 16)) ? (
+  return isNaN(parseInt(id || "")) ? (
     <ErrorPage errorCode="404" />
   ) : error ? (
     <ErrorPage errorCode="unavailable" />
@@ -96,11 +97,7 @@ export default function NFTPage() {
                     component="span"
                     sx={{ display: "inline", color: "grey.400" }}
                   >
-                    ~{" "}
-                    {(parseFloat(coinPrice) * parseFloat(data.price)).toFixed(
-                      2
-                    )}{" "}
-                    $
+                    ~ {(coinPrice * parseFloat(data.price)).toFixed(2)} $
                   </Typography>
                 )}
               </Typography>

@@ -9,11 +9,15 @@ import { useEthers } from "@usedapp/core";
 import { LoginContext } from "../../contexts/LoginContext";
 
 interface ErrorPageProps {
-  errorCode: "requiredAuthorization" | "unavailable" | "404" | string;
+  errorCode:
+    | "requiredAuthorization"
+    | "unavailable"
+    | "requiredMetamask"
+    | "404"
+    | string;
 }
 
 export default function ErrorPage({ errorCode }: ErrorPageProps) {
-  const { activateBrowserWallet } = useEthers();
   const [modal, setModal] = useState<ReactNode | null>(null);
   const [login] = useContext(LoginContext);
 
@@ -31,7 +35,20 @@ export default function ErrorPage({ errorCode }: ErrorPageProps) {
           <Link to="/">На главную</Link>
         </>
       );
+    // TODO: Добавить в приложение обработку этой ошибки
+    case "requiredMetamask":
+      // TODO: Добавить ссылки на скачивание метамаска, или ссылку на лендинг метамаска
+      return (
+        <>
+          <Typography variant="h4">Необходим Metamask</Typography>
+          <Typography variant="body1">
+            Пока что мы не умеем работать с другими кошельками кроме Metamask.
+            Пожалуйста, используйте его.
+          </Typography>
+        </>
+      );
     case "requiredAuthorization":
+      const { activateBrowserWallet } = useEthers();
       return (
         <>
           <Typography variant="h4">Страница недоступна</Typography>

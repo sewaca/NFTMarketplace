@@ -1,18 +1,20 @@
 import { IconButton, Tooltip, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
+import API from "../../../API/API";
 import { LoginContext } from "../../../contexts/LoginContext";
+import useApiMutation from "../../../hooks/useApiMutation";
 
 interface LikeButtonProps {
   liked: boolean;
-  // setIsLiked: Function;
+  id: number;
 }
 
-export default function LikeButton({ liked }: LikeButtonProps) {
+export default function LikeButton({ liked, id }: LikeButtonProps) {
   const [login] = useContext(LoginContext);
   const { enqueueSnackbar } = useSnackbar();
-
   const [isLiked, setIsLiked] = useState(false);
+  const { send } = useApiMutation();
   // When prop liked changes - change state
   useEffect(() => {
     if (liked !== isLiked) setIsLiked(liked);
@@ -28,6 +30,18 @@ export default function LikeButton({ liked }: LikeButtonProps) {
         { variant: "error" }
       );
     // HANDLE LIKE
+    send(() =>
+      API.likeNFT({ login, nftId: id, liked: !isLiked })
+        .then((res) => res.json())
+        .then((ans) => {
+          if (ans.status !== "ok")
+            enqueueSnackbar(
+              <Typography>Произошла ошибка. Попробуйте позже</Typography>,
+              { variant: "error" }
+            );
+          setIsLiked((value) => (ans.status === "ok" ? value : !value));
+        })
+    );
     setIsLiked(!isLiked);
   };
 

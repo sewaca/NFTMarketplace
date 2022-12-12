@@ -52,7 +52,7 @@ class API {
 
   // POST /login/
   loginUser = async ({ email, password }: ILoginUser) => {
-    // TODO: Uncomment logic for login. Now in dev version it's commented
+    // PROD: Uncomment logic for login. Now in dev version it's commented
     return new Promise((resolve, reject) => {
       resolve({ json: () => ({ status: "ok" }) });
     });
@@ -62,10 +62,10 @@ class API {
     // });
   };
 
-  // PUT /connectWallet/
-  connectWallet = async ({ email, wallet }: IConnectWallet) => {
-    return fetch(this.url + `/connectWallet/`, {
-      method: "PUT",
+  // POST /verifyWallet/
+  verifyWallet = async ({ email, wallet }: IConnectWallet) => {
+    return fetch(this.url + `/verifyWallet/`, {
+      method: "POST",
       body: JSON.stringify({ email, wallet }),
     });
   };
@@ -77,6 +77,14 @@ class API {
         `/user?` +
         new URLSearchParams({ login, fields: JSON.stringify(fields) })
     );
+  };
+
+  // POST /like/
+  likeNFT = async ({ login, nftId, liked }: ILikeNFT) => {
+    return fetch(this.url + "/like/", {
+      method: "POST",
+      body: JSON.stringify({ login, nftId, liked }),
+    });
   };
 }
 
@@ -119,4 +127,9 @@ interface IConnectWallet {
 interface IGetUser {
   login: string;
   fields: Array<"email" | "wallet" | "name" | "role" | "avatar">;
+}
+interface ILikeNFT {
+  login: string;
+  nftId: number;
+  liked: boolean;
 }

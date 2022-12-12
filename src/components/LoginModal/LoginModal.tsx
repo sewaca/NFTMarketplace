@@ -73,7 +73,7 @@ export default function LoginModal({
         password: errorsText.wrongSymbolsPassword,
       });
 
-    send(
+    send(() =>
       API.loginUser({ email: formdata.email, password: formdata.password })
         .then((res: any) => res.json())
         .then((ans: any) => {

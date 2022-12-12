@@ -64,7 +64,7 @@ export default function CreateNFT() {
     const fr = new FileReader();
     fr.readAsDataURL(uploadedFiles[0]);
     fr.onloadend = () => {
-      send(
+      send(() =>
         API.sendImage({
           nblocks: partsAmount,
           src: fr.result?.toString() || "",

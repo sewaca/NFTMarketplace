@@ -5,9 +5,9 @@ export default function useApiMutatuion() {
   const [error, setError] = useState("");
   const [data, setData] = useState<any>("");
 
-  const send = (request: Promise<any>) => {
+  const send = (request: () => Promise<any>) => {
     setLoading(true);
-    request
+    request()
       .then((ans) => {
         setLoading(false);
         setData(ans);

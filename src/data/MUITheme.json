@@ -1,4 +1,5 @@
 {
+  "components": { "MuiSkeleton": { "defaultProps": { "animation": "wave" } } },
   "palette": {
     "primary": {
       "main": "#FF003C",
@@ -23,6 +24,5 @@
     },
     "h5": { "fontFamily": "Blender Pro,Space Grotesk,Roboto,sans-serif" },
     "h6": { "fontFamily": "Blender Pro,Space Grotesk,Roboto,sans-serif" }
-  },
-  "components": { "MuiSkeleton": { "defaultProps": { "animation": "wave" } } }
+  }
 }

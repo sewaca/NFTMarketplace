@@ -22,7 +22,7 @@ export default function useApiRequest({
   });
 
   useEffect(() => {
-    console.log("new request with key: ", key);
+    // console.log("new request with key: ", key);
     request()
       .then((ans) => {
         setState({

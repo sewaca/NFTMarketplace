@@ -1,11 +1,12 @@
 import { Grid } from "@mui/material";
-import { useCoingeckoPrice } from "@usedapp/coingecko";
+import { useContext } from "react";
 import Slider from "react-slick";
+import { CoinPriceContext } from "../../contexts/CoinGeckoProvider/CoinGeckoProvider";
 import { ICollection } from "../../types";
 import { NFTById } from "../NFTById";
 import styles from "./collection.module.css";
 import CollectionInfo from "./CollectionInfo";
-import LazyLoad from "react-lazyload";
+// import LazyLoad from "react-lazyload";
 
 interface CollectionByIdProps {
   hideSeller?: boolean;
@@ -27,7 +28,7 @@ export function CollectionByData({
   hideSeller,
   hideLike,
 }: CollectionByDataProps) {
-  const coinPrice = useCoingeckoPrice("ethereum", "usd");
+  const coinPrice = useContext(CoinPriceContext);
   let collectionInfo = {
     id: data.id,
     title: data.title,
@@ -40,10 +41,7 @@ export function CollectionByData({
   return (
     <Grid container sx={{ mb: 5 }} spacing={3}>
       <Grid item xs={12} md={4}>
-        <CollectionInfo
-          collection={collectionInfo}
-          coinPrice={parseFloat(coinPrice || "0")}
-        />
+        <CollectionInfo collection={collectionInfo} coinPrice={coinPrice} />
       </Grid>
       <Grid item xs={12} md={8}>
         <Slider
@@ -56,12 +54,10 @@ export function CollectionByData({
         >
           {data.nfts.map((id: number) => (
             <div className={styles.CollectionInfo__NFTWrapper} key={id}>
-              <LazyLoad>
-                <NFTById
-                  {...{ id, hideSeller, hideLike }}
-                  coinPrice={parseFloat(coinPrice || "0")}
-                />
-              </LazyLoad>
+              <NFTById
+                {...{ id, hideSeller, hideLike }}
+                coinPrice={coinPrice}
+              />
             </div>
           ))}
         </Slider>

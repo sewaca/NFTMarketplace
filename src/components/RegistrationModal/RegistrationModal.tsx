@@ -133,7 +133,7 @@ export default function RegistrationModal({
         email: errorsText.wrongEmail,
       });
     // Если пользовательские данные верны:
-    send(
+    send(() =>
       API.registerUser({ email: formdata.email, password: formdata.password })
         .then((res) => res.json())
         .then((ans) => {

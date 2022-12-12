@@ -30,7 +30,7 @@ const authors = [
   "Father of your mother",
 ];
 
-const randomId = () => Math.random().toString(16).slice(2, 10);
+const randomId = () => Math.random().toString(10).slice(2, 10);
 const randomImage = () => images[Math.floor(Math.random() * images.length)];
 const randomTitle = () => titles[Math.floor(Math.random() * titles.length)];
 const randomPrice = () => (Math.random() / 10).toFixed(3);
@@ -69,10 +69,11 @@ const randomCollection = (nftAmount = 4) => ({
 });
 
 const requestListener = function (req, res) {
-  console.log("request on", URL.parse(req.url, true).pathname);
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   const path = URL.parse(req.url, true).pathname;
+  console.log("request on", path);
 
   // ~ /market/
   if (path.indexOf("market") !== -1) {
@@ -93,6 +94,13 @@ const requestListener = function (req, res) {
     return;
   }
 
+  // ~ /like/
+  if (path === "/like/") {
+    res.writeHead(200);
+    res.end(JSON.stringify({ status: Math.random() > 0.5 ? "ok" : "error" }));
+    return;
+  }
+
   if (req.url.indexOf("/user?") !== -1) {
     let fields = JSON.parse(URL.parse(req.url, true).query.fields);
     var ans = {};
@@ -109,7 +117,6 @@ const requestListener = function (req, res) {
     res.end(JSON.stringify(ans));
     return;
   }
-
   // ~ /makeNft/
   if (req.url.indexOf("makeNft") !== -1) {
     res.writeHead(200);

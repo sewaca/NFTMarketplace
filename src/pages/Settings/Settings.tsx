@@ -13,7 +13,7 @@ export default function Settings() {
   const [active, setActive] = useState(0);
   const [login] = useContext(LoginContext);
 
-  // TODO: Возможно стоит разделить запрос и раскидать по табам
+  // TODO: Вынести тяжелые запросы в отдельные табы
   const {
     data: userData,
     loading,
@@ -30,7 +30,7 @@ export default function Settings() {
   const tabs = [
     {
       title: "Сменить никнейм",
-      content: <ChangeNicknameTab name={userData.name || ""} />,
+      content: <ChangeNicknameTab name={userData?.name || ""} />,
     },
     { title: "Сменить почту", content: <>123</> },
     { title: "Сменить пароль", content: <>123</> },
@@ -38,6 +38,7 @@ export default function Settings() {
     { title: "Отвязать кошелек", content: <>123</> },
   ];
 
+  // TODO: Доделать страницу
   return error ? (
     <ErrorPage errorCode="unavaliable" />
   ) : (

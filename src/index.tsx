@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { AppProviders } from "./AppProviders";
 // Шрифты
 import "@fontsource/roboto";
@@ -9,15 +9,13 @@ import "./assets/global.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./assets/slick_customization.global.css";
+import React from "react";
 
 const container = document.getElementById("root") as HTMLElement;
-// const root = ReactDOM.createRoot(container);
+const root = ReactDOM.createRoot(container);
 
-// react snap
-// if (container.hasChildNodes()) {
-//   hydrate(<AppProviders />, container);
-// } else {
-// root.render(<AppProviders />);
-// }
-
-ReactDOM.render(<AppProviders />, container);
+root.render(
+  <React.StrictMode>
+    <AppProviders />
+  </React.StrictMode>
+);

@@ -88,7 +88,9 @@ export function NFT({
           ) : (
             <Typography variant="h6">{data.title.slice(0, 23)}</Typography>
           )}
-          {!hideLike && <LikeButton liked={data?.liked || false} />}
+          {!hideLike && (
+            <LikeButton liked={data?.liked || false} id={parseInt(data?.id) || -1} />
+          )}
         </div>
 
         {!hideSeller &&
